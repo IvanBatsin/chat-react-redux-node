@@ -1,0 +1,106 @@
+@import '../../styles//variables';
+
+.dialogs {
+  margin-top: 20px;
+  height: 400px;
+  overflow: auto;
+
+  &_item {
+    display: flex;
+    margin-top: 15px;
+    align-items: center;
+    transition: .2s ease;
+    border-radius: 5px;
+    padding: 3px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $light_grey;
+    }
+
+    &_avatar {
+      min-width: 50px;
+      min-height: 50px;
+      border-radius: 50%;
+      background-size: cover;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+    &_avatar_icon {
+      min-width: 50px;
+      min-height: 50px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 600;
+      position: relative;
+    }
+
+    .dialogs_onlineStatus {
+      width: 10px;
+      height: 10px;
+      background-color: $green;
+      border-radius: 50%;
+      position: absolute;
+      box-shadow: 0px 0px 2px 3px white;
+      right: 0;
+      bottom: 5px;
+    }
+
+    &_message {
+      margin-left: 5px;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      flex-direction: column;
+      min-height: 50px;
+
+      &_info {
+        display: flex;
+        justify-content: space-between;
+
+        &_user {
+          font-size: 16px;
+          font-weight: 800;
+        }
+        &_time {
+          color: $grey;
+          font-size: 12px;
+        }
+      }
+
+      &_content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+
+        &_text {
+          white-space: nowrap;
+          color: $grey;
+          max-width: 195px;
+          overflow: hidden;
+        }
+
+        &_unCheck {
+          display: flex;
+          justify-content: center;
+          border-radius: 50%;
+          width: 10px;
+          height: 10px;
+          background-color: $red;
+          font-size: 10px;
+          color: white;
+          margin-right: 5px;
+        }
+        &_check {
+          width: 15px;
+          height: 15px;
+        }
+      }
+    }
+  }
+}

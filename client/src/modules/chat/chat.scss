@@ -1,0 +1,87 @@
+@import '../../styles/variables';
+
+.chat {
+  position: relative;
+
+  &_header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 1px solid $light_grey;
+
+    &_options {
+      position: absolute;
+      padding: 5px;
+      width: 50px;
+      top: 15px;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      opacity: .7;
+      transition: opacity .2s ease;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      .options_round {
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        background-color: $grey;
+        opacity: .7;
+      }
+    }
+  
+    &_user {
+      font-size: 20px;
+      font-weight: 800;
+    }
+    &_info {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 5px;
+  
+      &_status {
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        margin-right: 5px;
+        animation: online;
+        animation-duration: .8s;
+        animation-iteration-count: infinite;
+      }
+      &_status.online {
+        background-color: $green;
+      }
+      &_status.out {
+        background-color: $grey;
+        animation: none;
+      }
+    }
+  }
+
+  &_content {
+    background-color: rgb(247, 247, 247);
+    padding: 5px;
+    height: 520px;
+    width: 100%;
+    overflow: auto;
+  }
+}
+
+@keyframes online {
+  from {
+    transform: scale(0.9);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}

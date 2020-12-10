@@ -1,0 +1,13 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 134px; height: 134px;"><style>
+     .line-mail4 {animation:line-mail4 1.6s infinite;}
+     @keyframes line-mail4 {
+         0%{transform: translate3d(0, -2px, 0);}
+         50%{transform: translate3d(0, 2px, 0);}
+         100%{transform: translate3d(0, -2px, 0);}
+     }
+     @media (prefers-reduced-motion: reduce) {
+         .line-mail4 {
+             animation: none;
+         }
+     }
+    </style><rect class="stroke1 fill1" x="19" y="48.0808" width="63" height="44" rx="6" fill="rgba(143,168,158,1)" stroke="rgba(245,242,242,1)" stroke-width="2.3px" style="animation-duration: 1.1s;"></rect><path class="stroke1 fill1" d="M77.6232 90.3464L51.8459 66.5245C51.0843 65.8207 49.9111 65.8157 49.1436 66.513L22.9155 90.3406C22.2388 90.9554 22.6737 92.0808 23.5879 92.0808H76.9445C77.8545 92.0808 78.2916 90.964 77.6232 90.3464Z" fill="rgba(143,168,158,1)" stroke="rgba(245,242,242,1)" stroke-width="2.3px" style="animation-duration: 1.1s;"></path><path class="stroke1 fill2" d="M77.6232 50.0152L51.8459 73.8371C51.0843 74.5408 49.9111 74.5458 49.1436 73.8486L22.9155 50.0209C22.2388 49.4062 22.6737 48.2808 23.5879 48.2808H76.9445C77.8545 48.2808 78.2916 49.3975 77.6232 50.0152Z" fill="rgba(221,73,73,1)" stroke="rgba(245,242,242,1)" stroke-width="2.3px" style="animation-duration: 1.1s;"></path><path class="line-mail4 stroke2" d="M50.75 39.3684L50.75 9.99999M50.75 9.99999L39 21.6976M50.75 9.99999L62.25 21.6976" stroke="rgba(175,172,230,1)" stroke-width="2.3px" stroke-linecap="round" style="animation-duration: 1.1s;"></path></svg>

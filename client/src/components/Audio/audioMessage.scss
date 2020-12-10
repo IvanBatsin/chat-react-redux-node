@@ -1,0 +1,42 @@
+@import '../../styles/variables';
+
+.message_bubble_audio {
+  border-radius: 10px;
+}
+.message_audio_info {
+  display: flex;
+  width: 220px;
+  justify-content: space-between;
+  align-items: center;
+
+  .audio_button {
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .audio_wawe {
+    width: 90px;
+    z-index: 2;
+  }
+
+  .audio_duration {
+    color: white;
+    font-size: 14px;
+    opacity: 0.5;
+    letter-spacing: .5px;
+    z-index: 2;
+  }
+}
+
+.message_audio_progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: $light_blue;
+  border-radius: 10px;
+  transition: width .1s;
+}

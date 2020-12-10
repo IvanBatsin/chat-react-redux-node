@@ -1,0 +1,146 @@
+@import '../../../node_modules/reset-css/reset.css';
+@import '../../styles//variables';
+
+.message {
+  display: flex;
+  margin-bottom: 20px;
+
+  &_avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    &_picture {
+      border-radius: 50%;
+      width: 33px;
+      height: 33px;
+      margin-right: 13px;
+      margin-bottom: 18px;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    &_empty {
+      border-radius: 50%;
+      width: 33px;
+      height: 33px;
+      margin-right: 13px;
+      margin-bottom: 18px;
+      display: flex;
+      color: white;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &_content {
+    max-width: 440px;
+  }
+
+  &_bubble {
+    position: relative;
+    background-color: $block;
+    border-radius: 10px 10px 10px 0;
+    padding: 17px;
+    margin-bottom: 8px;
+  }
+
+  &_text {
+    color: white;
+    line-height: 20px;
+  }
+
+  &_date {
+    font-size: 14px;
+    opacity: .5;
+  }
+
+  &_attachments {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    max-width: 440px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+
+    &_item {
+      width: 50px;
+      height: 50px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+      }
+    }
+  }
+
+  &_check {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      margin: 0 10px;
+    }
+  }
+}
+
+.message_me {
+  flex-direction: row-reverse;
+
+  .message_bubble {
+    background-color: white;
+    border: 1px solid rgba(95, 96, 97, 0.5);
+    border-radius: 10px 10px 0 10px;
+
+    .message_text {
+      color: $black
+    }
+  }
+
+  .message_bubble_audio {
+    background-color: $grey;
+    border: 1px solid rgba(95, 96, 97, 0.5);
+    border-radius: 10px;
+  }
+
+  .message_avatar {
+
+    &_picture {
+      margin-left: 13px;
+      margin-right: 0;
+    }
+    &_empty {
+      margin-left: 13px;
+      margin-right: 0;
+    }
+  }
+
+  .message_check {
+
+    img {
+      left: -40px;
+    }
+  }
+}
+
+.message_typing {
+  .message_bubble {
+    animation-name: typing;
+    animation-duration: .9s;
+    animation-iteration-count: infinite;
+  }
+}
+
+@keyframes typing {
+  from {
+    transform: scale(0.95);
+    filter: brightness(110%);
+  }
+
+  to {
+    transform: scale(1);
+    filter: brightness(100%);
+  }
+}

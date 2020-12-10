@@ -1,0 +1,41 @@
+.auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+
+  &_top {
+    text-align: center;
+    margin-bottom: 50px;
+
+    h2 {
+      font-size: 28px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 21px;
+      opacity: 0.5;
+    }
+  }
+  .block {
+    width: 430px;
+  }
+
+  &_message {
+
+    img {
+      height: 80px;
+      width: 80px;
+      display: block;
+      margin: 10px auto;
+    }
+
+    p {
+      font-size: 16px;
+      text-align: center;
+      margin-top: 20px;
+    }
+  }
+}
