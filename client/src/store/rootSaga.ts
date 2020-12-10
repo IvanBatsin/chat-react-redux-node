@@ -1,7 +1,8 @@
 import { all } from 'redux-saga/effects';
+import { messagesSaga } from './ducks/messages/sagas'
 
-export const rootSaga = function* (){
+export function* rootSaga(){
   yield all([
-
+    messagesSaga()
   ]);
 }

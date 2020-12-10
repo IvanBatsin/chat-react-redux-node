@@ -9,14 +9,14 @@ import { store } from './store/rootStore';
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <div className="wrapper">
-        <Provider store={store}>
+      <Provider store={store}>
+        <div className="wrapper">
           <Switch>
             <Route exact path='/home' component={Home}></Route>
             <Route path={['/auth', '/auth/register']} component={AuthPage}></Route>
           </Switch>
-        </Provider>
-      </div>
+        </div>
+      </Provider>
     </Router>
   </React.StrictMode>,
   document.getElementById('root')

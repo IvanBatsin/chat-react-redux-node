@@ -4,7 +4,7 @@ import { IMessage } from '../../interfaces';
 import DialogItem from '../../components/DialodItem/DialogItem';
 import DialogItemLoader from '../../components/DialodItem/DialogItemLoader';
 import { Empty } from 'antd';
-import { fetchDialogs } from '../../API/fetchDialogs';
+import { dialogsApi } from '../../API/fetchDialogs';
 import { IDialog } from '../../interfaces/dialog';
 
 interface IDialogsProps {
@@ -24,7 +24,7 @@ export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React
 
   const handleFetchDialogs = async (): Promise<void> => {
     try {
-      const data = await fetchDialogs.fetchAllDialogs();
+      const data = await dialogsApi.fetchAllDialogs();
       cacheDialogs.current = data;
       setDialogs(data);
       setIsLoaded(true);

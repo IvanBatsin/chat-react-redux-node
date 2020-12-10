@@ -1,28 +1,23 @@
 import React from 'react';
 import "./chat.scss";
 import { Message } from '../../components/index';
-import { IMessage, IUser } from '../../interfaces/index';
+import { IUser } from '../../interfaces/index';
 import { ChatHeader } from '../../components/ChatHeader/ChatHeader';
 import { MessageEmpty } from '../../components/Loader/MessageLoader';
 import { MessageInput } from '../../components/Message/MessageInput';
 import LoadMessage from '../../img/loadMessage.svg';
 import SendMessage from '../../img/sendMessage.svg';
-import { messagesApi } from '../../API/fetchMessages';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectMessagesData, selectIsLoading, selectIsLoaded } from '../../store/ducks/messages/selector';
+import { fetchMessagesData } from '../../store/ducks/messages/actionCreators';
 
 export const Chat: React.FC = (): React.ReactElement => {
-  const [messages, setMessages] = React.useState<IMessage[]>([]);
-  const [isFetched, setIsFetched] = React.useState<boolean>(false);
-  const fetchMessages = async (): Promise<void> => {
-    try {
-      const data = await messagesApi.fetchMessages();
-      setMessages(data);
-      setIsFetched(true);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  const dispatch = useDispatch();
+  const messages = useSelector(selectMessagesData);
+  const isLoading = useSelector(selectIsLoading);
+  const isLoaded = useSelector(selectIsLoaded);
   React.useEffect(() => {
-    fetchMessages();
+    dispatch(fetchMessagesData());
   }, []);
 
   const user: IUser  = {
@@ -41,13 +36,11 @@ export const Chat: React.FC = (): React.ReactElement => {
     <div className="chat">
       <ChatHeader user={user}/>
       <div className="chat_content">
-        {!isFetched ? 
-          <MessageEmpty src={LoadMessage}/>
+        {isLoading && <MessageEmpty src={LoadMessage}/>}
+        {isLoaded && !messages?.length ?
+          <MessageEmpty src={SendMessage}/>
         :
-          !messages.length ? 
-            <MessageEmpty src={SendMessage}/>
-          :
-          messages.map(item => {
+          messages?.map(item => {
             return (
               <Message
                 key={item._id}
