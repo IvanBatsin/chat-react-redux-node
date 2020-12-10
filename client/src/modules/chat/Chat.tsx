@@ -29,9 +29,9 @@ export const Chat: React.FC = (): React.ReactElement => {
     _id: 'wwe13',
     createdAt: 'December 17, 2009 03:24:00',
     email: 'mymail@dengi.cvv',
-    fullName: 'Aj Applegate',
+    fullName: 'GhosteMane',
     online: true,
-    userName: 'Maitress',
+    userName: 'Tiger',
     avatarUrl: '',
     password: 'machineGun'
   };

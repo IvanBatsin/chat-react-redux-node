@@ -18,7 +18,7 @@
       ],
       "user": {
         "_id": "wwe12",
-        "fullName": "Lorelei Lee",
+        "fullName": "Daisy Moore",
         "userName": "Shafty",
         "password": "124sdes5",
         "email": "test@gmail.com",
@@ -36,8 +36,8 @@
       "createdAt": "Sun Dec 17 2001 03:24:00 GMT+0300 (Москва, стандартное время)",
       "user": {
         "_id": "wwe13",
-        "fullName": "Phoenix Marie",
-        "userName": "Quuinn",
+        "fullName": "Lola Terner",
+        "userName": "Pack",
         "password": "124sdes5",
         "email": "test@gmail.com",
         "createdAt": "Sun Dec 17 2019 03:24:00 GMT+0300 (Москва, стандартное время)",
@@ -54,8 +54,8 @@
       "createdAt": "Sun Dec 17 2001 03:24:00 GMT+0300 (Москва, стандартное время)",
       "user": {
         "_id": "wwe12",
-        "fullName": "Lorelei Lee",
-        "userName": "Quuinn",
+        "fullName": "Marvin Delly",
+        "userName": "Crocc",
         "password": "124sdes5",
         "email": "test@gmail.com",
         "createdAt": "Sun Dec 17 2019 03:24:00 GMT+0300 (Москва, стандартное время)",
@@ -72,7 +72,7 @@
       "createdAt": "Sun Dec 17 2001 03:24:00 GMT+0300 (Москва, стандартное время)",
       "user": {
         "_id": "wwe13",
-        "fullName": "Phoenix Marie",
+        "fullName": "Homer Simpson",
         "userName": "Quuinn",
         "password": "124sdes5",
         "email": "test@gmail.com",
@@ -85,12 +85,66 @@
   
   "user": {
     "_id": "wwe13",
-    "fullName": "Phoenix Marie",
-    "userName": "Quuinn",
+    "fullName": "Bart Simpson",
+    "userName": "ipsum",
     "password": "124sdes5",
     "email": "test@gmail.com",
     "createdAt": "Sun Dec 17 2019 03:24:00 GMT+0300 (Москва, стандартное время)",
     "online": false,
     "avatarUrl": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
-  }
+  },
+
+  "dialogs": [
+    {
+      "_id": "dialog1",
+      "createdAt": "Mon Dec 07 2020 19:37:48 GMT+0300 (Москва, стандартное время)",
+      "text": "Some text to check word break lorem ipsum natir",
+      "attachments": [],
+      "isReaded": false,
+      "user": {
+        "_id": "wwe13",
+        "fullName": "Lenny Sharks",
+        "userName": "lorem",
+        "password": "124sdes5",
+        "email": "test@gmail.com",
+        "createdAt": "Sun Dec 17 2019 03:24:00 GMT+0300 (Москва, стандартное время)",
+        "online": false,
+        "avatarUrl": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
+      }
+    },
+    {
+      "_id": "dialog2",
+      "createdAt": "Sun Dec 06 2020 7:25:01 GMT+0300 (Москва, стандартное время)",
+      "text": "Second text to check width and overfflow block hidden",
+      "attachments": [],
+      "isReaded": true,
+      "user": {
+        "_id": "wwe23",
+        "fullName": "Lola Terner",
+        "userName": "Quuinn",
+        "password": "124sdes5",
+        "email": "test@gmail.com",
+        "createdAt": "Sun Dec 17 2019 03:24:00 GMT+0300 (Москва, стандартное время)",
+        "online": true,
+        "avatarUrl": "https://images.unsplash.com/photo-1513207565459-d7f36bfa1222?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=335&q=80"
+      }
+    },
+    {
+      "_id": "dialog3",
+      "createdAt": "Sun Dec 06 2020 7:25:01 GMT+0300 (Москва, стандартное время)",
+      "text": "Second text to check width and overfflow block hidden",
+      "attachments": [],
+      "isReaded": true,
+      "user": {
+        "_id": "wwe23",
+        "fullName": "Dean Donne",
+        "userName": "Master",
+        "password": "124sdes5",
+        "email": "test@gmail.com",
+        "createdAt": "Sun Dec 17 2019 03:24:00 GMT+0300 (Москва, стандартное время)",
+        "online": true,
+        "avatarUrl": ""
+      }
+    }
+  ]
 }
