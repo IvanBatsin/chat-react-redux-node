@@ -9,16 +9,19 @@ import LoadMessage from '../../img/loadMessage.svg';
 import SendMessage from '../../img/sendMessage.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMessagesData, selectIsLoading, selectIsLoaded } from '../../store/ducks/messages/selector';
-import { fetchMessagesData } from '../../store/ducks/messages/actionCreators';
 
 export const Chat: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
   const messages = useSelector(selectMessagesData);
   const isLoading = useSelector(selectIsLoading);
   const isLoaded = useSelector(selectIsLoaded);
+  const messagesContainer = React.useRef<HTMLDivElement>(null);
+
   React.useEffect(() => {
-    dispatch(fetchMessagesData());
-  }, []);
+    if (messages) {
+      messagesContainer.current?.scrollTo(0, 9999);
+    }
+  }, [messages]);
 
   const user: IUser  = {
     _id: 'wwe13',
@@ -35,7 +38,7 @@ export const Chat: React.FC = (): React.ReactElement => {
   return (
     <div className="chat">
       <ChatHeader user={user}/>
-      <div className="chat_content">
+      <div ref={messagesContainer} className="chat_content">
         {isLoading && <MessageEmpty src={LoadMessage}/>}
         {isLoaded && !messages?.length ?
           <MessageEmpty src={SendMessage}/>

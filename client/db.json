@@ -3,6 +3,7 @@
     {
       "_id": "qwerty11",
       "text": "Lorem ipsum",
+      "dialog": "dialog1",
       "isReaded": false,
       "createdAt": "Sun Dec 17 2019 20:44:00 GMT+0300 (Москва, стандартное время)",
       "audio": "",
@@ -30,6 +31,7 @@
     {
       "_id": "qwerty12",
       "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, necessitatibus sunt officia mollitia ab sit nobis, impedit voluptate sed esse quaerat non voluptatibus sequi sapiente est eum aliquam delectus id?",
+      "dialog": "dialog1",
       "attachments": [],
       "audio": "",
       "isReaded": false,
@@ -66,6 +68,7 @@
     {
       "_id": "qwerty14",
       "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, necessitatibus sunt officia mollitia ab sit nobis, impedit voluptate sed esse quaerat non voluptatibus sequi sapiente est eum aliquam delectus id?",
+      "dialog": "dialog1",
       "attachments": [],
       "audio": "",
       "isReaded": false,
@@ -79,6 +82,44 @@
         "createdAt": "Sun Dec 17 2019 03:24:00 GMT+0300 (Москва, стандартное время)",
         "online": false,
         "avatarUrl": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
+      }
+    },
+    {
+      "_id": "qwerty15",
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, necessitatibus sunt officia mollitia ab sit nobis, impedit voluptate sed esse quaerat non voluptatibus sequi sapiente est eum aliquam delectus id?",
+      "dialog": "dialog1",
+      "attachments": [],
+      "audio": "",
+      "isReaded": false,
+      "createdAt": "Sun Dec 17 2001 03:24:00 GMT+0300 (Москва, стандартное время)",
+      "user": {
+        "_id": "wwe13",
+        "fullName": "Homer Simpson",
+        "userName": "Quuinn",
+        "password": "124sdes5",
+        "email": "test@gmail.com",
+        "createdAt": "Sun Dec 17 2019 03:24:00 GMT+0300 (Москва, стандартное время)",
+        "online": false,
+        "avatarUrl": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
+      }
+    },
+    {
+      "_id": "qwerty16",
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, necessitatibus sunt officia mollitia ab sit nobis, impedit voluptate sed esse quaerat non voluptatibus sequi sapiente est eum aliquam delectus id?",
+      "dialog": "dialog2",
+      "attachments": [],
+      "audio": "",
+      "isReaded": false,
+      "createdAt": "Sun Dec 17 2001 03:24:00 GMT+0300 (Москва, стандартное время)",
+      "user": {
+        "_id": "wwe13",
+        "fullName": "Homer Simpson",
+        "userName": "Quuinn",
+        "password": "124sdes5",
+        "email": "test@gmail.com",
+        "createdAt": "Sun Dec 17 2019 03:24:00 GMT+0300 (Москва, стандартное время)",
+        "online": false,
+        "avatarUrl": ""
       }
     }
   ],

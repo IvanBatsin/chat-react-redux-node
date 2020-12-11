@@ -5,6 +5,7 @@ import { rootSaga } from './rootSaga';
 
 // States
 import { MessagesState } from './ducks/messages/state';
+import { DialogsState } from './ducks/dialogs/state';
 
 declare global {
   interface Window {
@@ -16,7 +17,8 @@ const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOO
 const sagaMiddleware = createSagaMiddleware();
 
 export interface RootStore {
-  messages: MessagesState
+  messages: MessagesState,
+  dialogs: DialogsState
 }
 
 export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(sagaMiddleware)));

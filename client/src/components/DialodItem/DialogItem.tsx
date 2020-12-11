@@ -1,19 +1,20 @@
 import React from 'react';
-import { IMessage } from '../../interfaces';
 import format from 'date-fns/format';
 import isToday from 'date-fns/isToday';
 import distance from 'date-fns/esm/formatDistanceToNow'; 
 import { ru } from 'date-fns/locale';
 import Check from '../../img/check.svg';
 import { AvatarCheck } from '../Avatar/AvatarDialog';
+import { IDialog } from '../../interfaces/dialog';
 
 interface IDialogProps {
-  message: IMessage
+  dialog: IDialog,
+  chooseDialog: (dialog: string) => void
 }
 
-const DialogItem: React.FC<IDialogProps> = ({message: {user, text, isReaded, createdAt}}: IDialogProps): React.ReactElement => {
+const DialogItem: React.FC<IDialogProps> = ({dialog: {user, text, isReaded, createdAt, _id}, chooseDialog}: IDialogProps): React.ReactElement => {
   return (
-    <div className="dialogs_item">
+    <div className="dialogs_item" onClick={() => chooseDialog(_id)}>
       <AvatarCheck avatar={user.avatarUrl} userName={user.fullName}>
         {user.online && <div className="dialogs_onlineStatus"></div>}
       </AvatarCheck>

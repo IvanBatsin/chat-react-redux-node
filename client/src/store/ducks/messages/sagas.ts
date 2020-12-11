@@ -2,12 +2,12 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { messagesApi } from '../../../API/fetchMessages';
 import { IMessage } from '../../../interfaces';
 import { LoadingState } from '../../../interfaces/loadingState';
-import { setMessagesData, setMessagesLoadingStatus, MessagesActionTypes } from './actionCreators';
+import { setMessagesData, setMessagesLoadingStatus, MessagesActionTypes, IFetchMessagesData } from './actionCreators';
 
-function* fetchMessagesSaga() {
+function* fetchMessagesSaga({payload}: IFetchMessagesData) {
   try {
     yield put(setMessagesLoadingStatus(LoadingState.LOADING));
-    const data: IMessage[] = yield call(messagesApi.fetchMessages);
+    const data: IMessage[] = yield call(messagesApi.fetchMessages, payload);
     yield put(setMessagesData(data));
   } catch (err) {
     console.log(err);
