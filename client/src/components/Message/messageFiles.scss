@@ -1,0 +1,17 @@
+@import '../../styles/variables';
+
+.message_input_files {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 25px;
+  font-size: 16px;
+
+  .file_delete {
+    color: $red;
+    transition: filter .3s ease;
+    cursor: pointer;
+  }
+  .file_delete:hover {
+    filter: brightness(80%);
+  }
+}
