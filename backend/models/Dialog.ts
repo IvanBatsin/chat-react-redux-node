@@ -18,10 +18,9 @@ const DialogSchema = new Schema<DialogModelDocument>({
     ref: "User",
     required: true
   },
-  lastMessage: {
+  message: {
     type: Types.ObjectId,
-    ref: "Message",
-    required: true
+    ref: "Message"
   }
 }, {
   timestamps: true

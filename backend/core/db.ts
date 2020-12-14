@@ -4,7 +4,8 @@ mongoose.set('debug', true);
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/mern_chat', {
   useCreateIndex: true,
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false
 });
 
 const db = mongoose.connection;

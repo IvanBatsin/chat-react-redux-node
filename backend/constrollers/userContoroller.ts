@@ -1,13 +1,14 @@
-import express from 'express';
+import { Request, Response } from 'express';
 import { UserModel } from '../models/User';
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import { generateHash } from '../utils/generateHash';
 import { sendMail } from '../utils/sendMails';
 import jwt from 'jsonwebtoken';
+import path from 'path';
 
 class UserController {
-  static async index(req: express.Request, res: express.Response): Promise<void> {
+  static async index(req: Request, res: Response): Promise<void> {
     try {
       
     } catch (error) {
@@ -19,7 +20,7 @@ class UserController {
     }
   }
 
-  static async create(req: express.Request, res: express.Response): Promise<void> {
+  static async create(req: Request, res: Response): Promise<void> {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(400).json({
@@ -38,7 +39,7 @@ class UserController {
         fullName, 
         userName,
         password: hashPassword,
-        confirm_hash: generateHash(process.env.HASH_STRING || Math.random().toString(36))
+        confirm_hash: generateHash(process.env.HASH_STRING || Math.random().toString())
       });
 
       await user.save();
@@ -63,7 +64,7 @@ class UserController {
     }
   }
 
-  static async verify(req: express.Request, res: express.Response): Promise<void> {
+  static async verify(req: Request, res: Response): Promise<void> {
     try {
       const hash = req.query.hash;
 
@@ -79,7 +80,7 @@ class UserController {
         return;
       }
 
-      res.json({status: 'success'});
+      res.sendFile(path.join(__dirname, '../public/index.html'));
     } catch (error) {
       console.log(error);
       res.status(500).json({
@@ -89,7 +90,7 @@ class UserController {
     }
   }
 
-  static async afterLofin(req: express.Request, res: express.Response): Promise<void> {
+  static async afterLofin(req: Request, res: Response): Promise<void> {
     try {
       if (req.user) {
         res.json({

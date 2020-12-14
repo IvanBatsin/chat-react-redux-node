@@ -5,10 +5,13 @@ import bcrypt from 'bcryptjs';
 import { Strategy as JwtStrategy } from 'passport-jwt';
 import { ExtractJwt } from 'passport-jwt';
 
-passport.use(new LocalStrategy(
+passport.use(new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password'
+},
   async (username, password, done): Promise<void> => {
     try {
-      const user = await UserModel.findOne({$or: [{email: username}, {userName: username}]}).exec();
+      const user = await UserModel.findOne({email: username}).exec();
 
       if (!user || !user.confirmed) return done(null, false);
 

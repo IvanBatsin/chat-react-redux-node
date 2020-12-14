@@ -1,6 +1,7 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 interface IUser {
+  _id: Types.ObjectId,
   fullName: string,
   userName: string,
   email: string,
@@ -45,7 +46,7 @@ const UserSchema = new Schema<UserModelDocument>({
   },
   last_seen: {
     type: Date,
-    default: Date.now()
+    default: new Date()
   }
 }, {
   timestamps: true
@@ -61,4 +62,4 @@ UserSchema.set('toJSON', {
 });
 
 const UserModel = model<UserModelDocument>('User', UserSchema);
-export { UserModel, UserModelDocument }
+export { UserModel, UserModelDocument, IUser }
