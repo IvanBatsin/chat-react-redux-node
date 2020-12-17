@@ -1,11 +1,30 @@
-import { Request, Response} from 'express';
+import { Request, Response, NextFunction, Router } from 'express';
 import { DialogModel } from '../models/Dialog';
 import { MessageModel } from '../models/Message';
+import { passport } from '../core/passport';
+import { updateLastSeen } from '../middleware/last_seen';
+import { IController } from '../interface/controller';
+import { HttpExeption } from '../interface/httpExeption';
 
-class DialogController {
-  static async index(req: Request, res: Response): Promise<void> {
+export class DialogController implements IController {
+  public path: string = '/dialogs';
+  public router: Router = Router();
+
+  constructor(){
+    this.initializeRouter();
+  }
+
+  public initializeRouter(): void {
+    this.router.get(`${this.path}/:author`, passport.authenticate('jwt', {session: false}), updateLastSeen, this.index.bind(this));
+    this.router.post(`${this.path}/create`, passport.authenticate('jwt', {session: false}), updateLastSeen, this.create.bind(this));
+  }
+
+  async index(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
     try {
       const author: string = req.params.author;
+
+      if (!author) return next(new HttpExeption(404, 'Не верный запрос'));
+
       const dialogs = await DialogModel.find({$or: [{author}, {partner: author}]}).populate(['author', 'partner']).exec();
 
       res.json({
@@ -14,25 +33,16 @@ class DialogController {
       });
     } catch (error) {
       console.log(error);
-      res.status(500).json({
-        status: 'error',
-        message: error
-      });
+      next(new HttpExeption(500, ""));
     }
   }
 
-  static async create(req: Request, res: Response): Promise<void> {
+  async create(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
     try {
       const {author, partner, text} = req.body;
+      if (!author || !partner)  return next(new HttpExeption(404, 'Не верный запрос'));
 
-      if (!author || !partner) {
-        res.status(404).send();
-        return;
-      }
-
-      const dialog = new DialogModel({
-        author, partner
-      });
+      const dialog = await new DialogModel({author, partner});
 
       await dialog.save();
 
@@ -48,12 +58,7 @@ class DialogController {
       });
     } catch (error) {
       console.log(error);
-      res.status(500).json({
-        status: 'error',
-        data: error
-      });
+      next(new HttpExeption(500, ""));
     }
   }
 }
-
-export { DialogController };

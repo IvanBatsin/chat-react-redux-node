@@ -33,7 +33,7 @@ passport.use(new JwtStrategy({
 }, async (token, done) => {
   try {
     const user = await UserModel.findById(token.data._id);
-    if (!user) return done(null, false);
+    if (!user || !user.confirmed) return done(null, false);
     done(null, user.toObject());
   } catch (error) {
     console.log('JwtStrategy', error);

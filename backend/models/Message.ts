@@ -20,7 +20,7 @@ const MessageSchema = new Schema<MessageDocumentModel>({
   },
   unread: {
     type: Boolean,
-    default: false
+    default: true
   },
   dialog: {
     type: Types.ObjectId,

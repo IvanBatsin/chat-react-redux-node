@@ -26,6 +26,6 @@ const DialogSchema = new Schema<DialogModelDocument>({
   timestamps: true
 });
 
-const DialogModel = model<DialogModelDocument>('Dilaog', DialogSchema);
+const DialogModel = model<DialogModelDocument>('Dialog', DialogSchema);
 
 export { DialogModel, DialogModelDocument };
