@@ -1,30 +1,52 @@
-import express, { Application } from "express";
-import { IController } from "../interface/controller";
+import express, { Application, NextFunction } from "express";
+import { IController, IControllerContructor } from "../interface/controller";
 import { passport } from '../core/passport';
 import { errorHandler } from '../middleware/errorHandler';
+import http from 'http';
 import mongoose from 'mongoose';
+import { Socket, Server } from "socket.io";
+const cors = require('cors');
+import { UserController } from './userContoroller';
+import { DialogController } from './dialogController';
+import { MessageComtroller } from './messageController';
 
 export class App {
   private app: Application;
   private port: number;
+  private server: http.Server;
+  public io: Server
+  private controllers: IControllerContructor[] = [UserController, DialogController, MessageComtroller];
 
-  constructor(controllers: IController[], port: number){
+  constructor(port: number){
     this.port = port;
     this.app = express();
+    this.server = http.createServer(this.app);
+    this.io = new Server(this.server, {
+      cors: {
+        origin: "*"
+      }
+    });
 
     this.intializeMiddleware();
-    this.intializeControllers(controllers);
+    this.intializeControllers();
   }
 
   private intializeMiddleware(){
     this.app.use(express.json({}));
+    this.app.use(cors());
+    this.app.options('*', cors());
     this.app.use(passport.initialize());
     this.app.use(errorHandler);
   }
 
-  private intializeControllers(controllers: IController[]): void {
-    controllers.forEach(item => {
-      this.app.use('/', item.router);
+  private createRouteController(ctr: IControllerContructor, io: Server): IController{
+    return new ctr(io);
+  }
+
+  private intializeControllers(): void {
+    this.controllers.forEach(item => {
+      const controller: IController = this.createRouteController(item, this.io);
+      this.app.use('/', controller.router);
     });
   }
 
@@ -48,7 +70,14 @@ export class App {
   }
 
   private listen(): void {
-    this.app.listen(this.port, () => console.log('we on air'));
+    this.server.listen(this.port, () => console.log('we on air'));
+    this.socketEventsHandler();
+  }
+
+  private socketEventsHandler(): void {
+    this.io.on('connection', (socket: Socket)=> {
+      socket.emit('test', 'Hello sucker');
+    });
   }
 
   public async startApp(): Promise<void>{

@@ -5,12 +5,15 @@ import { passport } from '../core/passport';
 import { updateLastSeen } from '../middleware/last_seen';
 import { IController } from '../interface/controller';
 import { HttpExeption } from '../interface/httpExeption';
+import { Server } from 'socket.io';
 
 export class DialogController implements IController {
   public path: string = '/dialogs';
   public router: Router = Router();
+  public io: Server;
 
-  constructor(){
+  constructor(socket: Server){
+    this.io = socket;
     this.initializeRouter();
   }
 

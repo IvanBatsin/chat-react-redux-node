@@ -11,19 +11,29 @@ import { UserModel } from '../models/User';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 import passport from "passport";
+import { Server, Socket } from 'socket.io';
 
 export class UserController implements IController {
   public path: string = '/user';
   public router: Router = Router();
+  public io: Server;
 
-  constructor(){
+  constructor(io: Server){
+    this.io = io;
     this.initializeRouter();
+    this.socketHandler();
   }
 
   public initializeRouter(): void{
     this.router.post(`${this.path}/register`, registerValidation, this.create.bind(this));
     this.router.get(`${this.path}/verify`, this.verify.bind(this));
     this.router.post(`${this.path}/login`, passport.authenticate('local'), updateLastSeen, this.afterLogin);
+  }
+
+  socketHandler(){
+    this.io.on('connection', (socket: Socket)=> {
+      socket.on('chat', (data: any) => console.log(data));
+    });
   }
 
   async create(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {

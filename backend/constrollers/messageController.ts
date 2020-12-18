@@ -5,12 +5,15 @@ import { IController } from '../interface/controller';
 import { Router } from 'express';
 import { passport } from '../core/passport';
 import { updateLastSeen } from '../middleware/last_seen';
+import { Server } from 'socket.io';
 
 export class MessageComtroller implements IController {
   public path: string = '/messages';
   public router: Router = Router();
+  public io: Server;
 
-  constructor(){
+  constructor(socket: Server){
+    this.io = socket;
     this.initializeRouter();
   }
 
@@ -51,6 +54,7 @@ export class MessageComtroller implements IController {
         status: 'success',
         data: message
       });
+      this.io.emit('SERVER:NEW_MESSAGE', message);
     } catch (error) {
       console.log(error);
       next(new HttpExeption(500, ""));
