@@ -3,9 +3,11 @@ import './register.scss';
 import { WhiteBlock } from '../../components';
 import { RegisterMessage } from './components/RegisterMessage';
 import { RegisterForm } from './components/RegisterForm';
+import { useSelector } from 'react-redux';
+import { selectUserObject } from '../../store/ducks/user/selector';
 
 export const Register: React.FC = (): React.ReactElement => {
-  const user = false;
+  const user = useSelector(selectUserObject);
 
   return (
     <section className="auth">

@@ -5,7 +5,7 @@ interface IChatHeaderProps {
   user: IUser
 }
 
-export const ChatHeader: React.FC<IChatHeaderProps> = ({user: {online, fullName}}: IChatHeaderProps): React.ReactElement => {
+export const ChatHeader: React.FC<IChatHeaderProps> = ({user: {fullName, last_seen}}: IChatHeaderProps): React.ReactElement => {
   return (
     <div className="chat_header">
       <div className="chat_header_options">
@@ -15,7 +15,7 @@ export const ChatHeader: React.FC<IChatHeaderProps> = ({user: {online, fullName}
       </div>
       <span className="chat_header_user">{fullName}</span>
       <div className="chat_header_info">
-        <span className={`chat_header_info_status ${online ? 'online' : 'out'}`}></span>{online ? 'Онлайн' : 'Не в сети'}
+        <span className={`chat_header_info_status ${last_seen ? 'online' : 'out'}`}></span>{last_seen ? 'Онлайн' : 'Не в сети'}
       </div>
     </div>
   )

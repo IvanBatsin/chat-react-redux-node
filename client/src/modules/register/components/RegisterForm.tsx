@@ -4,6 +4,9 @@ import { RuleObject } from 'antd/lib/form';
 import { Form, Input  } from 'antd';
 import { Link } from 'react-router-dom';
 import { IRegisterForm } from '../../../interfaces/index';
+import { userApi } from '../../../API/fetchUser';
+
+// import { AlertElem } from '../../../components/Alert/Alert';
 
 export const RegisterForm: React.FC = (): React.ReactElement => {
   const [data, setData] = React.useState<IRegisterForm>({

@@ -16,7 +16,7 @@ const DialogItem: React.FC<IDialogProps> = ({dialog: {user, text, isReaded, crea
   return (
     <div className="dialogs_item" onClick={() => chooseDialog(_id)}>
       <AvatarCheck avatar={user.avatarUrl} userName={user.fullName}>
-        {user.online && <div className="dialogs_onlineStatus"></div>}
+        {user.last_seen && <div className="dialogs_onlineStatus"></div>}
       </AvatarCheck>
       <div className="dialogs_item_message">
         <div className="dialogs_item_message_info">

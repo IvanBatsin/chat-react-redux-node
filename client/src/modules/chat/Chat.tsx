@@ -28,10 +28,11 @@ export const Chat: React.FC = (): React.ReactElement => {
     createdAt: 'December 17, 2009 03:24:00',
     email: 'mymail@dengi.cvv',
     fullName: 'GhosteMane',
-    online: true,
     userName: 'Tiger',
     avatarUrl: '',
-    password: 'machineGun'
+    confirmed: true,
+    last_seen: 'December 17, 2009 03:24:00',
+    updatedAt: 'December 17, 2009 03:24:00'
   };
   const typing = false;
 
