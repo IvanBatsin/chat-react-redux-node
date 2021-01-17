@@ -25,9 +25,9 @@ export class UserController implements IController {
   }
 
   public initializeRouter(): void{
-    this.router.post(`${this.path}/register`, registerValidation, this.create.bind(this));
+    this.router.post(`${this.path}/signup`, registerValidation, this.create.bind(this));
     this.router.get(`${this.path}/verify`, this.verify.bind(this));
-    this.router.post(`${this.path}/login`, passport.authenticate('local'), updateLastSeen, this.afterLogin);
+    this.router.post(`${this.path}/signin`, passport.authenticate('local'), updateLastSeen, this.afterLogin);
   }
 
   socketHandler(){
@@ -41,13 +41,24 @@ export class UserController implements IController {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         res.status(400).json({
-          status: 400,
-          error: errors.array()
+          status: 'error',
+          data: errors.array()[0].toString()
         });
         return;
       }
 
       const {email, password, fullName, userName} = req.body;
+
+      const condidate = await UserModel.findOne({email});
+
+      if (condidate) {
+        res.status(409).json({
+          status: 'error',
+          data: 'Email already exists'
+        });
+        return;
+      }
+
       const hashPassword = await bcrypt.hash(password, 12);
 
       const user = new UserModel({
@@ -87,7 +98,7 @@ export class UserController implements IController {
 
       if (!user) return next(new HttpExeption(401, 'Пользователь не найден'));
 
-      res.sendFile(path.join(__dirname, '../public/index.html'));
+      res.redirect('http://localhost:3000/auth/signin')
     } catch (error) {
       console.log(error);
       next(new HttpExeption(500, ""));
@@ -103,11 +114,14 @@ export class UserController implements IController {
             ...req.user,
             password: undefined,
             confirm_hash: undefined,
-            token: jwt.sign({data: req.user}, process.env.SECRET_KEY || 'secret key', {expiresIn: "30 d"})
-          }
+          },
+          token: jwt.sign({data: req.user}, process.env.SECRET_KEY || 'secret key', {expiresIn: "30 d"})
         });
       } else {
-        res.status(403).send();
+        res.status(403).json({
+          status: 'error',
+          data: 'Unauthorized'
+        });
       }
     } catch (error) {
       console.log(error);

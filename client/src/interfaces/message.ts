@@ -4,11 +4,14 @@ import { IDialog } from './dialog';
 
 export interface IMessage {
   _id: string,
-  dialog: IDialog['_id'],
-  user: IUser,
+  // dialog: IDialog['_id'],
+  // author: IUser['_id'],
+  dialog: string,
+  author: string,
   text: string,
-  isReaded: boolean,
+  unread: boolean,
   createdAt: string,
-  attachments: IAttachments[],
+  updatedAt: string,
+  attachments?: IAttachments[],
   audio?: string
 }

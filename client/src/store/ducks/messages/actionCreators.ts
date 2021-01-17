@@ -24,7 +24,7 @@ export interface ISetMessagesLoadingStatus extends Action<MessagesActionTypes> {
 }
 
 // Action creators
-export const setMessagesData = (payload: IMessage[]): ISetMessagesData => ({
+export const setMessagesData = (payload: IMessage[] | undefined): ISetMessagesData => ({
   type: MessagesActionTypes.SET_MESSAGES_DATA,
   payload
 });

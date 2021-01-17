@@ -1,12 +1,13 @@
 import React from 'react';
 import { Button } from '../../../components';
 import { RuleObject } from 'antd/lib/form';
-import { Form, Input  } from 'antd';
+import { Form, Input, notification } from 'antd';
 import { Link } from 'react-router-dom';
 import { IRegisterForm } from '../../../interfaces/index';
-import { userApi } from '../../../API/fetchUser';
-
-// import { AlertElem } from '../../../components/Alert/Alert';
+import { userApi, IRegisterUser } from '../../../API/fetchUser';
+import { setUser } from '../../../store/ducks/user/actionCreators';
+import { useDispatch } from 'react-redux';
+import { InputComponent } from '../../../components/formField/Input';
 
 export const RegisterForm: React.FC = (): React.ReactElement => {
   const [data, setData] = React.useState<IRegisterForm>({
@@ -16,6 +17,8 @@ export const RegisterForm: React.FC = (): React.ReactElement => {
     password: '',
     password2: ''
   });
+  const [btnDisable, setBtnDisable] = React.useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const layout = {
     labelCol: { span: 5 },
@@ -42,14 +45,20 @@ export const RegisterForm: React.FC = (): React.ReactElement => {
   }
 
   const handleSubmit = async (): Promise<void> => {
-    console.log(data);
-    setData({
-      email: '',
-      fullName: '',
-      password: '',
-      password2: '',
-      userName: ''
-    });
+    setBtnDisable(true);
+    const res: IRegisterUser = await userApi.register(data);
+
+    if (res.status === 'success' && typeof res.data !== 'string') {
+      dispatch(setUser(res.data));
+    }
+
+    if (res.status === 'error') {
+      setBtnDisable(false);
+      notification.error({
+        message: res.status.toUpperCase(),
+        description: res.data.toString()
+      });
+    }
   }
   return (
     <Form
@@ -59,37 +68,29 @@ export const RegisterForm: React.FC = (): React.ReactElement => {
       onFinish={handleSubmit}
       style={{display:'flex', justifyContent:'center', flexDirection:'column'}}
     >
-      <Form.Item
-        label="Имя"
-        name="fullName"
-        rules={[{ required: true, type: "string", min: 2, whitespace: false, message: 'Имя введено некорректно' }]}
-        >
-        <Input 
-          name="fullName"
-          autoFocus 
-          defaultValue={data.fullName} 
-          onChange={event => handleDataChange(event.currentTarget.name, event.currentTarget.value)}/>
-      </Form.Item>
-      <Form.Item
-        label="Логин"
-        name="userName"
-        rules={[{ required: true, type: "string", min: 2, whitespace: false, message: 'Логин введен некорректно' }]}
-        >
-        <Input 
-          name="userName"
-          defaultValue={data.userName} 
-          onChange={event => handleDataChange(event.currentTarget.name, event.currentTarget.value)}/>
-      </Form.Item>
-      <Form.Item
-        label="E-mail"
-        name="email"
-        rules={[{ required: true, type: "string", min: 2, pattern: /^[^@]+@[^@]+\.[^@]+$/, whitespace: false, message: 'E-mail введена не корректно' }]}
-      >
-        <Input 
-          name="email"
-          defaultValue={data.email} 
-          onChange={event => handleDataChange(event.currentTarget.name, event.currentTarget.value)}/>
-      </Form.Item>
+      
+      <InputComponent 
+        handleDataChange={handleDataChange} 
+        label={'Имя'} 
+        name={'fullName'} 
+        autoFocus={true} 
+        value={data.fullName} 
+        rules={[{ required: true, type: "string", min: 2, whitespace: false, message: 'Имя введено некорректно' }]} />
+
+      <InputComponent 
+        handleDataChange={handleDataChange} 
+        label={'Логин'} 
+        name={'userName'} 
+        value={data.userName} 
+        rules={[{ required: true, type: "string", min: 2, whitespace: false, message: 'Логин введен некорректно' }]} />
+
+      <InputComponent 
+        handleDataChange={handleDataChange} 
+        label={'E-mail'} 
+        name={'email'} 
+        value={data.email} 
+        rules={[{ required: true, type: "string", min: 2, pattern: /^[^@]+@[^@]+\.[^@]+$/, whitespace: false, message: 'E-mail введена не корректно' }]} />
+
       <Form.Item
         label="Пароль"
         name="password"
@@ -98,9 +99,10 @@ export const RegisterForm: React.FC = (): React.ReactElement => {
       >
         <Input.Password 
           name="password"
-          defaultValue={data.password} 
+          value={data.password} 
           onChange={event => handleDataChange(event.currentTarget.name, event.currentTarget.value)}/>
       </Form.Item>
+
       <Form.Item
         {...tailLayout}
         name="password2"
@@ -111,11 +113,11 @@ export const RegisterForm: React.FC = (): React.ReactElement => {
         <Input.Password 
           name="password2"
           placeholder="Подтвердить пароль" 
-          defaultValue={data.password2} 
+          value={data.password2} 
           onChange={event => handleDataChange(event.currentTarget.name, event.currentTarget.value)}/>
       </Form.Item>
-        <Button htmlType="submit" className="button_large">Войти в аккаунт</Button>
-      <Link to="/auth" style={{marginTop:20}}>Войти в аккаунт</Link>
+        <Button disable={btnDisable} htmlType="submit" className="button_large">Создать аккаунт</Button>
+      <Link to="/auth/signin" style={{marginTop:20}}>Войти в аккаунт</Link>
     </Form>
   )
 }

@@ -16,11 +16,6 @@ export const dialogsReducer = produce((draft: Draft<DialogsState>, action: Dialo
       break;
     }
 
-    case DialogsActionTypes.SEARCH_DIALOG: {
-      draft.data = draft.data?.filter(item => item.user.fullName.toUpperCase().indexOf(action.payload.toUpperCase()) >= 0);
-      break;
-    }
-
     case DialogsActionTypes.SET_DIALOGS_LOADING_STATUS: {
       draft.status = action.payload;
       break;

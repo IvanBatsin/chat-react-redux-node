@@ -1,10 +1,11 @@
 import { IAttachments, IUser } from ".";
+import { IMessage } from "./message";
 
 export interface IDialog {
   _id: string,
   createdAt: string,
-  text: string,
-  attachments: IAttachments[],
-  isReaded: boolean
-  user: IUser,
+  updatedAt: string,
+  author: IUser,
+  partner: IUser,
+  lastMessage: IMessage
 }

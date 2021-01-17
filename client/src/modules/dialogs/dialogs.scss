@@ -83,6 +83,10 @@
           color: $grey;
           max-width: 195px;
           overflow: hidden;
+
+          &.my_message {
+            color: rgb(10, 101, 143);
+          }
         }
 
         &_unCheck {

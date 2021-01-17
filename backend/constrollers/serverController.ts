@@ -1,4 +1,4 @@
-import express, { Application, NextFunction } from "express";
+import express, { Application } from "express";
 import { IController, IControllerContructor } from "../interface/controller";
 import { passport } from '../core/passport';
 import { errorHandler } from '../middleware/errorHandler';

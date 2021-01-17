@@ -3,6 +3,7 @@ import { Schema, model, Document, Types } from 'mongoose';
 interface IDialog {
   author:  Types.ObjectId,
   partner: Types.ObjectId,
+  lastMessage: Types.ObjectId
 }
 
 type DialogModelDocument = IDialog & Document;
@@ -18,7 +19,7 @@ const DialogSchema = new Schema<DialogModelDocument>({
     ref: "User",
     required: true
   },
-  message: {
+  lastMessage: {
     type: Types.ObjectId,
     ref: "Message"
   }

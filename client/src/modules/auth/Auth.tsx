@@ -1,37 +1,53 @@
 import React from 'react';
 import './auth.scss';
 import { Button, WhiteBlock } from '../../components';
-import { Form, Input  } from 'antd';
+import { Form, Input, notification } from 'antd';
 import { Link } from 'react-router-dom';
-
-interface IAuth {
-  email: string,
-  password: string
-}
+import { userApi, IAuthPayload } from '../../API/fetchUser';
+import { useHistory } from 'react-router-dom';
+import { setUser } from '../../store/ducks/user/actionCreators';
+import { useDispatch } from 'react-redux';
+import { InputComponent } from '../../components/formField/Input';
 
 export const Auth: React.FC = (): React.ReactElement => {
-  const [data, setData] = React.useState<IAuth>({
+  const [btnDisable, setBtnDisable] = React.useState<boolean>(false);
+  const [data, setData] = React.useState<IAuthPayload>({
     email: '',
     password: ''
   });
+
+  const router = useHistory();
+  const dispatch = useDispatch();
 
   const layout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 16 },
   };
 
-  const handleData = (name: string, value: string) => {;
-    setData(prevState => {
-      return {
-        ...prevState,
-        [name]: value
-      }
-    });
+  const handleData = (name: string, value: string): void => {
+    setData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   }
 
   const handleFormSubmit = async (): Promise<void> => {
-    console.log(data);
-    setData({email:'', password:''});
+    setBtnDisable(true);
+
+    const res = await userApi.auth(data);
+    if (res.status === 'success' && typeof res.data !== 'string') {
+      localStorage.setItem('token', res.token!);
+      dispatch(setUser(res.data));
+      router.push('/');
+    }
+
+    if (res.status === 'error') {
+      setBtnDisable(false);
+      notification.error({
+        message: res.status.toUpperCase(),
+        description: res.data.toString()
+      });
+    }
   }
 
   return (
@@ -49,13 +65,13 @@ export const Auth: React.FC = (): React.ReactElement => {
             onFinish={handleFormSubmit}
             style={{display:'flex', justifyContent:'center', flexDirection:'column'}}
           >
-            <Form.Item
-              label="E-mail"
-              name="email"
-              rules={[{ required: true, type: "string", min: 2, pattern: /^[^@]+@[^@]+\.[^@]+$/, whitespace: false, message: 'Почта введена некорректно' }]}
-            >
-              <Input defaultValue={data.email} autoFocus name='email' onChange={event => handleData(event.currentTarget.name, event.currentTarget.value)}/>
-            </Form.Item>
+            <InputComponent
+              handleDataChange={handleData}
+              label={'E-mail'}
+              name={'email'}
+              value={data.email}
+              autoFocus={true}
+              rules={[{ required: true, type: "string", min: 2, pattern: /^[^@]+@[^@]+\.[^@]+$/, whitespace: false, message: 'Почта введена некорректно' }]}/>
 
             <Form.Item
               label="Password"
@@ -63,10 +79,10 @@ export const Auth: React.FC = (): React.ReactElement => {
               rules={[{ required: true, min: 6, whitespace: false, message: 'Длина пароля от 6 символов' }]}
               style={{marginBottom:20}}
             >
-              <Input.Password defaultValue={data.password} autoFocus name='password' onChange={event => handleData(event.currentTarget.name, event.currentTarget.value)}/>
+              <Input.Password value={data.password} name='password' onChange={event => handleData(event.currentTarget.name, event.currentTarget.value)}/>
             </Form.Item>
-              <Button htmlType="submit" className="button_large">Войти в аккаунт</Button>
-            <Link to="/auth/register" style={{marginTop:20}}>Зарегистрироваться</Link>
+              <Button disable={btnDisable} htmlType="submit" className="button_large">Войти в аккаунт</Button>
+            <Link to="/auth/signup" style={{marginTop:20}}>Зарегистрироваться</Link>
           </Form>
         </WhiteBlock>
       </div>

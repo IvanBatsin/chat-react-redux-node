@@ -13,6 +13,11 @@ export const userReducer = produce((draft: Draft<UserState>, action: UserAction)
       break;
     }
 
+    case UserActionTypes.SER_PARTNER: {
+      draft.partner = action.payload;
+      break;
+    }
+
     default: break;
   }
 }, initialState);

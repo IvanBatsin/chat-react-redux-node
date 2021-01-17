@@ -1,12 +1,12 @@
 import { Action } from "redux";
+import { IUser } from "../../../interfaces";
 import { IDialog } from '../../../interfaces/dialog';
 import { LoadingState } from "../../../interfaces/loadingState";
 
 export enum DialogsActionTypes {
   SET_DATA_DIALOGS = 'dialogs/SET_DATA_DIALOGS',
   FETCH_DIALOGS = 'dialogs/FETCH_DIALOGS',
-  SET_DIALOGS_LOADING_STATUS = 'dialogs/SET_DIALOGS_LOADING_STATUS',
-  SEARCH_DIALOG = 'dialogs/SEARCH_DIALOG' 
+  SET_DIALOGS_LOADING_STATUS = 'dialogs/SET_DIALOGS_LOADING_STATUS'
 }
 
 // interfaces
@@ -15,32 +15,26 @@ export interface ISetDialogsData extends Action<DialogsActionTypes> {
   payload: IDialog[] | undefined
 }
 export interface IFetchDialogsData extends Action<DialogsActionTypes> {
-  type: DialogsActionTypes.FETCH_DIALOGS
+  type: DialogsActionTypes.FETCH_DIALOGS,
+  payload: IUser['_id']
 }
 export interface ISetDialogsLoadingStatus extends Action<DialogsActionTypes> {
   type: DialogsActionTypes.SET_DIALOGS_LOADING_STATUS,
   payload: LoadingState
 }
-export interface ISearchDialog extends Action<DialogsActionTypes> {
-  type: DialogsActionTypes.SEARCH_DIALOG,
-  payload: string
-}
 
 // Action creators
-export const setDialogsData = (payload: IDialog[]): ISetDialogsData => ({
+export const setDialogsData = (payload: IDialog[] | undefined): ISetDialogsData => ({
   type: DialogsActionTypes.SET_DATA_DIALOGS,
   payload
 })
-export const fetchDialogs = (): IFetchDialogsData => ({
+export const fetchDialogs = (payload:  IUser['_id']): IFetchDialogsData => ({
   type: DialogsActionTypes.FETCH_DIALOGS,
+  payload
 })
 export const setDialogsLoadingStatus = (payload: LoadingState): ISetDialogsLoadingStatus => ({
   type: DialogsActionTypes.SET_DIALOGS_LOADING_STATUS,
   payload
 })
-export const searchDialog = (payload: string): ISearchDialog => ({
-  type: DialogsActionTypes.SEARCH_DIALOG,
-  payload
-})
 
-export type DialogsAction = ISetDialogsData | IFetchDialogsData | ISetDialogsLoadingStatus | ISearchDialog;
+export type DialogsAction = ISetDialogsData | IFetchDialogsData | ISetDialogsLoadingStatus;

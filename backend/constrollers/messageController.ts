@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { MessageModel } from '../models/Message';
+import { DialogModel } from '../models/Dialog';
 import { HttpExeption } from '../interface/httpExeption';
 import { IController } from '../interface/controller';
 import { Router } from 'express';
 import { passport } from '../core/passport';
 import { updateLastSeen } from '../middleware/last_seen';
 import { Server } from 'socket.io';
+import { checkIdType } from '../utils/checkIdType';
 
 export class MessageComtroller implements IController {
   public path: string = '/messages';
@@ -26,7 +28,9 @@ export class MessageComtroller implements IController {
     try {
       const dialog = req.query.dialog;
 
-      if (!dialog) return next(new HttpExeption(404, "Неверный запрос"));
+      if (!dialog || !checkIdType(dialog.toString())) {
+        return next(new HttpExeption(404, "Неверный запрос"))
+      };
 
       const messages = await MessageModel.find({dialog}).populate('dialog').exec();
 
@@ -44,11 +48,15 @@ export class MessageComtroller implements IController {
     try {
       const {text, author, partner, dialog} = req.body;
 
-      if (!author || !partner || !dialog)  return next(new HttpExeption(404, "Не верный запрос"));
+      if (!checkIdType(author, partner, dialog)) {
+        return next(new HttpExeption(404, "Не верный запрос"));
+      }
 
+      // Create new message
       const message = new MessageModel({text, author, partner, dialog});
-
       await message.save();
+
+      await DialogModel.findByIdAndUpdate(dialog, {$set: {lastMessage: message._id}});
 
       res.status(201).json({
         status: 'success',

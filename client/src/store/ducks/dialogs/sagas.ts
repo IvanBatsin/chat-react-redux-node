@@ -1,16 +1,22 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { LoadingState } from '../../../interfaces/loadingState';
-import { IDialog } from '../../../interfaces/dialog';
-import { dialogsApi } from '../../../API/fetchDialogs';
-import { setDialogsLoadingStatus, setDialogsData, DialogsActionTypes } from './actionCreators';
+import { dialogsApi, AllDialogsResponse } from '../../../API/fetchDialogs';
+import { setDialogsLoadingStatus, setDialogsData, DialogsActionTypes, IFetchDialogsData } from './actionCreators';
+ 
 
-function* fetchDialogs(){
+function* fetchDialogs({payload}: IFetchDialogsData){
   try {
     yield put(setDialogsLoadingStatus(LoadingState.LOADING));
-    const data: IDialog[] = yield call(dialogsApi.fetchAllDialogs);
-    yield put(setDialogsData(data));
+
+    const data: AllDialogsResponse = yield call(dialogsApi.fetchAllDialogs, payload);
+
+    if (data.status === 'error') {
+      yield put(setDialogsLoadingStatus(LoadingState.ERROR));
+    } else {
+      yield put(setDialogsData(data.data));
+    }
   } catch (err) {
-    console.log(err);
+    console.log('saga error');
     yield put(setDialogsLoadingStatus(LoadingState.ERROR));
   }
 }

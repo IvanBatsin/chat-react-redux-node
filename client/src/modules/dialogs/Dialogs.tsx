@@ -4,10 +4,15 @@ import DialogItem from '../../components/DialodItem/DialogItem';
 import DialogItemLoader from '../../components/DialodItem/DialogItemLoader';
 import { Empty } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDialogs, searchDialog, setDialogsData } from '../../store/ducks/dialogs/actionCreators';
-import { selectDialogsData, selectStatusIsLoadng, selectStatusIsLoaded } from '../../store/ducks/dialogs/selector';
+import { fetchDialogs } from '../../store/ducks/dialogs/actionCreators';
+import { selectDialogsData, selectStatusIsLoadng, selectStatusIsLoaded, selectStatusIsError } from '../../store/ducks/dialogs/selector';
 import { fetchMessagesData } from '../../store/ducks/messages/actionCreators';
 import { IDialog } from '../../interfaces/dialog';
+import { DialogsError } from '../../components/Dialogs/DialogsError';
+import { selectUserObject } from '../../store/ducks/user/selector';
+import { getPartner } from '../../helpers/getPartner';
+import { setPartner } from '../../store/ducks/user/actionCreators';
+import { IUser } from '../../interfaces';
 
 interface IDialogsProps {
   search: string
@@ -15,35 +20,59 @@ interface IDialogsProps {
 
 export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React.ReactElement => {
   const dispatch = useDispatch();
-  const dialogs = useSelector(selectDialogsData);
+  const fetchedDialogs = useSelector(selectDialogsData);
+  const [dialogsState, setDialogsState] = React.useState<IDialog[]>([]);
+  
+  // Selectors
   const isLoading = useSelector(selectStatusIsLoadng);
   const isLoaded = useSelector(selectStatusIsLoaded);
-  let cachedDialogs = React.useRef<IDialog[]>([]);
+  const isError = useSelector(selectStatusIsError);
+  const user = useSelector(selectUserObject);
+
+  const handleFetchDialogs = (): void => {
+    if (user) {
+      dispatch(fetchDialogs(user?._id));
+    }
+  }
+
+  const searchDialogs = (): void => {
+    const searchedDialogs = fetchedDialogs!.filter(dialog => {
+      const partner = getPartner(user!, dialog.author, dialog.partner);
+      if (partner.fullName.toUpperCase().indexOf(search.toUpperCase()) >= 0){
+        return dialog;
+      }
+    });
+    setDialogsState(searchedDialogs);
+  }
 
   React.useEffect(() => {
-    dispatch(fetchDialogs());
+    handleFetchDialogs();
   }, []);
 
   React.useEffect(() => {
-    if (dialogs && dialogs!.length && !cachedDialogs.current.length) {
-      cachedDialogs.current = [...dialogs!];
+    if (fetchedDialogs && fetchedDialogs!.length && !dialogsState.length) {
+      setDialogsState(fetchedDialogs);
     }
-  }, [dialogs]);
+  }, [fetchedDialogs]);
 
   React.useEffect(() => {
-    dispatch(searchDialog(search));
-
-    if (!search.length && cachedDialogs.current.length) {
-      dispatch(setDialogsData([...cachedDialogs.current]));
+    if (user) {
+      if (search.length > 0) {
+        searchDialogs();
+      } else if (search.length === 0) {
+        setDialogsState(fetchedDialogs || []);
+      }
     }
   }, [search]);
 
-  const handleChooseDialog = (dialog: string) => {
+  const handleChooseDialog = (dialog: string, partner: IUser): void => {
     dispatch(fetchMessagesData(dialog));
+    dispatch(setPartner(partner));
   }
 
   return (
     <div className="dialogs">
+      {isError && <DialogsError fetchDialogs={handleFetchDialogs}/>}
       {isLoading && 
         <> 
           <DialogItemLoader />
@@ -52,11 +81,11 @@ export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React
           <DialogItemLoader />
         </>
       }
-      {!dialogs?.length && isLoaded ? 
+      {!dialogsState?.length && isLoaded ? 
         <Empty description="Нет диалогов"/>
       :
-        dialogs?.map(item => {
-          return <DialogItem chooseDialog={handleChooseDialog} key={item._id} dialog={item}/>
+        dialogsState?.map(item => {
+          return <DialogItem chooseDialog={handleChooseDialog} key={item._id} dialog={item} currentUser={user!}/>
         })
       }
     </div>

@@ -6,21 +6,28 @@ import { ru } from 'date-fns/locale';
 import Check from '../../img/check.svg';
 import { AvatarCheck } from '../Avatar/AvatarDialog';
 import { IDialog } from '../../interfaces/dialog';
+import { IUser } from '../../interfaces';
+import { getPartner } from '../../helpers/getPartner';
+import { isOnline } from '../../helpers/isOnline';
 
 interface IDialogProps {
   dialog: IDialog,
-  chooseDialog: (dialog: string) => void
+  currentUser: IUser,
+  chooseDialog: (dialog: string, partner: IUser) => void
 }
 
-const DialogItem: React.FC<IDialogProps> = ({dialog: {user, text, isReaded, createdAt, _id}, chooseDialog}: IDialogProps): React.ReactElement => {
+const DialogItem: React.FC<IDialogProps> = ({dialog: {author, partner, createdAt, _id, lastMessage}, chooseDialog, currentUser}: IDialogProps): React.ReactElement => {
+
+  const dialogPartner = getPartner(currentUser, author, partner);
+
   return (
-    <div className="dialogs_item" onClick={() => chooseDialog(_id)}>
-      <AvatarCheck avatar={user.avatarUrl} userName={user.fullName}>
-        {user.last_seen && <div className="dialogs_onlineStatus"></div>}
+    <div className="dialogs_item" onClick={() => chooseDialog(_id, dialogPartner)}>
+      <AvatarCheck avatar={dialogPartner.avatarUrl} userName={dialogPartner.fullName}>
+        {isOnline(dialogPartner.last_seen!) && <div className="dialogs_onlineStatus"></div>}
       </AvatarCheck>
       <div className="dialogs_item_message">
         <div className="dialogs_item_message_info">
-          <span className="dialogs_item_message_info_user">{user.fullName}</span>
+          <span className="dialogs_item_message_info_user">{dialogPartner.fullName}</span>
           {isToday(new Date(createdAt)) ? 
             <span className="dialogs_item_message_info_time">{format(new Date(createdAt), 'H:mm', {locale: ru})}</span>
           :
@@ -28,8 +35,11 @@ const DialogItem: React.FC<IDialogProps> = ({dialog: {user, text, isReaded, crea
           }
         </div>
         <div className="dialogs_item_message_content">
-          <span className="dialogs_item_message_content_text">{text}</span>
-          {!isReaded ? 
+          <span 
+            className={`dialogs_item_message_content_text ${lastMessage.author === currentUser._id && 'my_message'}`}>
+              {lastMessage.text}
+          </span>
+          {lastMessage.unread ? 
             <div className="dialogs_item_message_content_unCheck"></div>
           : 
             <img className="dialogs_item_message_content_check" alt="Checked" src={Check}></img>

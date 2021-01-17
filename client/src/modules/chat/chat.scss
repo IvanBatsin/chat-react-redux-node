@@ -11,6 +11,7 @@
     align-items: center;
     padding: 5px;
     border-bottom: 1px solid $light_grey;
+    min-height: 55px;
 
     &_options {
       position: absolute;
@@ -64,6 +65,51 @@
         background-color: $grey;
         animation: none;
       }
+    }
+
+    &_dropdown {
+      position: absolute;
+      top: 55px;
+      right: 0;
+      z-index: 2;
+      min-width: 100px;
+      border-left: 1px solid $grey;
+      border-bottom: 1px solid $grey;
+      border-radius: 5px;
+      background-color: white;
+      animation-name: dropdown;
+      animation-iteration-count: initial;
+      animation-duration: .5s;
+
+      ul {
+        list-style: none;
+
+        li {
+          border-radius: 5px;
+          font-size: 20px;
+          text-align: center;
+          padding: 5px 10px;
+          cursor: pointer;
+          transition: .3s;
+          color: grey;
+
+          &:hover {
+            background-color: $light_grey;
+            color: black;
+          }
+        }
+      }
+    }
+  }
+
+  @keyframes dropdown {
+    from {
+      opacity: 0.5;
+      transform: translateY(200px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 

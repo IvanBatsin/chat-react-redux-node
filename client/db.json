@@ -137,54 +137,83 @@
 
   "dialogs": [
     {
-      "_id": "dialog1",
-      "createdAt": "Mon Dec 07 2020 19:37:48 GMT+0300 (Москва, стандартное время)",
-      "text": "Some text to check word break lorem ipsum natir",
-      "attachments": [],
-      "isReaded": false,
-      "user": {
-        "_id": "wwe13",
-        "fullName": "Lenny Sharks",
-        "userName": "lorem",
-        "password": "124sdes5",
-        "email": "test@gmail.com",
-        "createdAt": "Sun Dec 17 2019 03:24:00 GMT+0300 (Москва, стандартное время)",
-        "online": false,
-        "avatarUrl": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
+      "_id": "6003e3f70dfe5b10587ac73c",
+      "author": {
+        "avatarUrl": "",
+        "confirmed": true,
+        "last_seen": "2021-01-17T10:47:18.231Z",
+        "_id": "6001535f03cd3f1dfc013a50",
+        "email": "test@hmail.com",
+        "fullName": "Jerry Owend",
+        "userName": "LuchaLibre",
+        "createdAt": "2021-01-15T08:33:35.224Z",
+        "updatedAt": "2021-01-17T10:47:18.232Z",
+        "__v": 0
+      },
+      "partner": {
+        "avatarUrl": "",
+        "confirmed": true,
+        "last_seen": "2021-01-16T18:43:22.737Z",
+        "_id": "600311c443266c1ee85c5a15",
+        "email": "dmr197252@gmail.com",
+        "fullName": "Barrett",
+        "userName": "LuchaLibre",
+        "createdAt": "2021-01-16T16:18:12.519Z",
+        "updatedAt": "2021-01-16T18:43:22.745Z",
+        "__v": 0
+      },
+      "createdAt": "2021-01-17T07:15:03.159Z",
+      "updatedAt": "2021-01-17T07:15:03.189Z",
+      "__v": 0,
+      "lastMessage": {
+        "unread": true,
+        "_id": "6003e3f70dfe5b10587ac73d",
+        "text": "Message from Jerry to Barrett",
+        "author": "6001535f03cd3f1dfc013a50",
+        "dialog": "6003e3f70dfe5b10587ac73c",
+        "createdAt": "2021-01-17T07:15:03.173Z",
+        "updatedAt": "2021-01-17T07:15:03.173Z",
+        "__v": 0
       }
     },
     {
-      "_id": "dialog2",
-      "createdAt": "Sun Dec 06 2020 7:25:01 GMT+0300 (Москва, стандартное время)",
-      "text": "Second text to check width and overfflow block hidden",
-      "attachments": [],
-      "isReaded": true,
-      "user": {
-        "_id": "wwe23",
-        "fullName": "Lola Terner",
-        "userName": "Quuinn",
-        "password": "124sdes5",
-        "email": "test@gmail.com",
-        "createdAt": "Sun Dec 17 2019 03:24:00 GMT+0300 (Москва, стандартное время)",
-        "online": true,
-        "avatarUrl": "https://images.unsplash.com/photo-1513207565459-d7f36bfa1222?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=335&q=80"
-      }
-    },
-    {
-      "_id": "dialog3",
-      "createdAt": "Sun Dec 06 2020 7:25:01 GMT+0300 (Москва, стандартное время)",
-      "text": "Second text to check width and overfflow block hidden",
-      "attachments": [],
-      "isReaded": true,
-      "user": {
-        "_id": "wwe23",
-        "fullName": "Dean Donne",
-        "userName": "Master",
-        "password": "124sdes5",
-        "email": "test@gmail.com",
-        "createdAt": "Sun Dec 17 2019 03:24:00 GMT+0300 (Москва, стандартное время)",
-        "online": true,
-        "avatarUrl": ""
+      "_id": "6003e5300dfe5b10587ac741",
+      "author": {
+        "avatarUrl": "",
+        "confirmed": true,
+        "last_seen": "2021-01-17T10:47:18.231Z",
+        "_id": "6001535f03cd3f1dfc013a50",
+        "email": "test@hmail.com",
+        "fullName": "Jerry Owend",
+        "userName": "LuchaLibre",
+        "createdAt": "2021-01-15T08:33:35.224Z",
+        "updatedAt": "2021-01-17T10:47:18.232Z",
+        "__v": 0
+      },
+      "partner": {
+        "avatarUrl": "",
+        "confirmed": true,
+        "last_seen": "2021-01-17T06:54:12.035Z",
+        "_id": "6003dee70dfe5b10587ac73b",
+        "email": "ltd1584@gmail.com",
+        "fullName": "Ivan",
+        "userName": "Shafty",
+        "createdAt": "2021-01-17T06:53:27.651Z",
+        "updatedAt": "2021-01-17T06:54:12.036Z",
+        "__v": 0
+      },
+      "createdAt": "2021-01-17T07:20:16.500Z",
+      "updatedAt": "2021-01-17T07:20:16.575Z",
+      "__v": 0,
+      "lastMessage": {
+        "unread": true,
+        "_id": "6003e5300dfe5b10587ac742",
+        "text": "Message from Jerry to Ivan",
+        "author": "6001535f03cd3f1dfc013a50",
+        "dialog": "6003e5300dfe5b10587ac741",
+        "createdAt": "2021-01-17T07:20:16.560Z",
+        "updatedAt": "2021-01-17T07:20:16.560Z",
+        "__v": 0
       }
     }
   ]

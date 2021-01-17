@@ -17,7 +17,7 @@ export const Register: React.FC = (): React.ReactElement => {
           <p>{!user ? 'Зарегистрируйте новый аккаунт' : 'Подтвердите свой аккаунт'}</p>
         </div>
         <WhiteBlock>
-          {!user ? <RegisterForm/> : <RegisterMessage/> }
+          {(user && !user.confirmed) ? <RegisterMessage/> : <RegisterForm/> }
         </WhiteBlock>
       </div>
     </section>
