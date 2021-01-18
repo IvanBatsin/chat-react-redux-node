@@ -8,15 +8,18 @@ import LoadMessage from '../../img/loadMessage.svg';
 import SendMessage from '../../img/sendMessage.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMessagesData, selectIsLoading, selectIsLoaded } from '../../store/ducks/messages/selector';
-import { selectUserObject } from '../../store/ducks/user/selector';
+import { selectUserObject, selectPartnerObject } from '../../store/ducks/user/selector';
+import { IUser } from '../../interfaces';
 
 export const Chat: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
   const messages = useSelector(selectMessagesData);
   const isLoading = useSelector(selectIsLoading);
   const isLoaded = useSelector(selectIsLoaded);
-  const user = useSelector(selectUserObject);
   const messagesContainer = React.useRef<HTMLDivElement>(null);
+
+  const user = useSelector(selectUserObject);
+  const partner = useSelector(selectPartnerObject);
 
   React.useEffect(() => {
     if (messages) {
@@ -24,17 +27,7 @@ export const Chat: React.FC = (): React.ReactElement => {
     }
   }, [messages]);
 
-  // const user: IUser  = {
-  //   _id: 'wwe13',
-  //   createdAt: 'December 17, 2009 03:24:00',
-  //   email: 'mymail@dengi.cvv',
-  //   fullName: 'GhosteMane',
-  //   userName: 'Tiger',
-  //   avatarUrl: '',
-  //   confirmed: true,
-  //   last_seen: 'December 17, 2009 03:24:00',
-  //   updatedAt: 'December 17, 2009 03:24:00'
-  // };
+
   const typing = false;
 
   return (
@@ -46,18 +39,17 @@ export const Chat: React.FC = (): React.ReactElement => {
           <MessageEmpty src={SendMessage}/>
         :
           messages?.map(item => {
+            const itsMe = item.author === user!._id;
             return (
               <Message
                 key={item._id}
-                isReaded={item.unread}
+                unread={item.unread}
                 isTyping={typing}
-                itsMe={item.author === user!._id}
-                // attachments={item.attachments}
+                itsMe={itsMe}
                 attachments={[]}
                 createdAt={item.createdAt}
                 text={item.text}
-                user={user!}
-                audio={item.audio}
+                user={itsMe ? user! : partner!}
               />
             )
           })

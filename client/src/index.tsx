@@ -6,6 +6,8 @@ import { Home, AuthPage} from './pages';
 import { Provider } from 'react-redux';
 import { store } from './store/rootStore';
 
+import { socket } from './core/socket';
+
 ReactDOM.render(
   <React.StrictMode>
     <Router>

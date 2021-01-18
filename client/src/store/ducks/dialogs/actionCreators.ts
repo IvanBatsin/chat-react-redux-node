@@ -6,7 +6,8 @@ import { LoadingState } from "../../../interfaces/loadingState";
 export enum DialogsActionTypes {
   SET_DATA_DIALOGS = 'dialogs/SET_DATA_DIALOGS',
   FETCH_DIALOGS = 'dialogs/FETCH_DIALOGS',
-  SET_DIALOGS_LOADING_STATUS = 'dialogs/SET_DIALOGS_LOADING_STATUS'
+  SET_DIALOGS_LOADING_STATUS = 'dialogs/SET_DIALOGS_LOADING_STATUS',
+  SET_DIALOGS_INITIAL = 'dialogs/SET_DIALOGS_INITIAL'
 }
 
 // interfaces
@@ -22,6 +23,9 @@ export interface ISetDialogsLoadingStatus extends Action<DialogsActionTypes> {
   type: DialogsActionTypes.SET_DIALOGS_LOADING_STATUS,
   payload: LoadingState
 }
+export interface ISetDialodsToInitial extends Action<DialogsActionTypes> {
+  type: DialogsActionTypes.SET_DIALOGS_INITIAL
+}
 
 // Action creators
 export const setDialogsData = (payload: IDialog[] | undefined): ISetDialogsData => ({
@@ -36,5 +40,8 @@ export const setDialogsLoadingStatus = (payload: LoadingState): ISetDialogsLoadi
   type: DialogsActionTypes.SET_DIALOGS_LOADING_STATUS,
   payload
 })
+export const setDialogsToInitial = (): ISetDialodsToInitial => ({
+  type: DialogsActionTypes.SET_DIALOGS_INITIAL
+})
 
-export type DialogsAction = ISetDialogsData | IFetchDialogsData | ISetDialogsLoadingStatus;
+export type DialogsAction = ISetDialogsData | IFetchDialogsData | ISetDialogsLoadingStatus | ISetDialodsToInitial;

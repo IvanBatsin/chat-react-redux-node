@@ -21,6 +21,12 @@ export const messagesReducer = produce((draft: Draft<MessagesState>, action: Mes
       break;
     }
 
+    case MessagesActionTypes.SET_MESSAGES_TO_INITIAL: {
+      draft.status = LoadingState.NEVER;
+      draft.data = undefined;
+      break;
+    }
+
     default: break;
   }
 }, initialState)

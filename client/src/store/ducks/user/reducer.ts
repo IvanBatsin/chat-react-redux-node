@@ -3,7 +3,8 @@ import { UserAction, UserActionTypes } from './actionCreators';
 import { UserState } from './state';
 
 const initialState = {
-  user: undefined
+  user: undefined,
+  partner: undefined
 }
 
 export const userReducer = produce((draft: Draft<UserState>, action: UserAction) => {
@@ -15,6 +16,12 @@ export const userReducer = produce((draft: Draft<UserState>, action: UserAction)
 
     case UserActionTypes.SER_PARTNER: {
       draft.partner = action.payload;
+      break;
+    }
+
+    case UserActionTypes.USER_EXIT: {
+      draft.user = undefined;
+      draft.partner = undefined;
       break;
     }
 

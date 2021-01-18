@@ -21,6 +21,12 @@ export const dialogsReducer = produce((draft: Draft<DialogsState>, action: Dialo
       break;
     }
 
+    case DialogsActionTypes.SET_DIALOGS_INITIAL: {
+      draft.status = LoadingState.NEVER;
+      draft.data = undefined;
+      break;
+    }
+
     default: break;
   }
 }, initialState)

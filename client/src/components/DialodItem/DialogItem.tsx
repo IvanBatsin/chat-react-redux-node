@@ -13,15 +13,15 @@ import { isOnline } from '../../helpers/isOnline';
 interface IDialogProps {
   dialog: IDialog,
   currentUser: IUser,
-  chooseDialog: (dialog: string, partner: IUser) => void
+  selectDialog: (dialog: string, partner: IUser) => void
 }
 
-const DialogItem: React.FC<IDialogProps> = ({dialog: {author, partner, createdAt, _id, lastMessage}, chooseDialog, currentUser}: IDialogProps): React.ReactElement => {
+const DialogItem: React.FC<IDialogProps> = ({dialog: {author, partner, createdAt, _id, lastMessage}, selectDialog, currentUser}: IDialogProps): React.ReactElement => {
 
   const dialogPartner = getPartner(currentUser, author, partner);
 
   return (
-    <div className="dialogs_item" onClick={() => chooseDialog(_id, dialogPartner)}>
+    <div className="dialogs_item" onClick={() => selectDialog(_id, dialogPartner)}>
       <AvatarCheck avatar={dialogPartner.avatarUrl} userName={dialogPartner.fullName}>
         {isOnline(dialogPartner.last_seen!) && <div className="dialogs_onlineStatus"></div>}
       </AvatarCheck>

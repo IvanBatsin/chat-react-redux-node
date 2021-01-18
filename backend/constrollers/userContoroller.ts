@@ -8,7 +8,6 @@ import { generateHash } from '../utils/generateHash';
 import { sendMail } from '../utils/sendMails';
 import { validationResult } from 'express-validator';
 import { UserModel } from '../models/User';
-import path from 'path';
 import jwt from 'jsonwebtoken';
 import passport from "passport";
 import { Server, Socket } from 'socket.io';
@@ -16,27 +15,20 @@ import { Server, Socket } from 'socket.io';
 export class UserController implements IController {
   public path: string = '/user';
   public router: Router = Router();
-  public io: Server;
+  public socket!: Socket;
 
-  constructor(io: Server){
-    this.io = io;
+  constructor(socket: Socket){
     this.initializeRouter();
-    this.socketHandler();
+    this.socket = socket;
   }
 
   public initializeRouter(): void{
-    this.router.post(`${this.path}/signup`, registerValidation, this.create.bind(this));
-    this.router.get(`${this.path}/verify`, this.verify.bind(this));
+    this.router.post(`${this.path}/signup`, registerValidation, this.create);
+    this.router.get(`${this.path}/verify`, this.verify);
     this.router.post(`${this.path}/signin`, passport.authenticate('local'), updateLastSeen, this.afterLogin);
   }
 
-  socketHandler(){
-    this.io.on('connection', (socket: Socket)=> {
-      socket.on('chat', (data: any) => console.log(data));
-    });
-  }
-
-  async create(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
+  private create = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction>  => {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -88,7 +80,7 @@ export class UserController implements IController {
     }
   }
 
-  async verify(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
+  private verify = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction>  => {
     try {
       const hash = req.query.hash;
 
@@ -105,9 +97,10 @@ export class UserController implements IController {
     }
   }
 
-  async afterLogin(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
+  private afterLogin = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> => {
     try {
       if (req.user) {
+        this.socket.emit('hello');
         res.json({
           status: 'success',
           data: {

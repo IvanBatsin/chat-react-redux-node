@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { setUser } from '../../store/ducks/user/actionCreators';
 import { useDispatch } from 'react-redux';
 import { InputComponent } from '../../components/formField/Input';
+import { socket } from '../../core/socket';
 
 export const Auth: React.FC = (): React.ReactElement => {
   const [btnDisable, setBtnDisable] = React.useState<boolean>(false);
@@ -36,6 +37,7 @@ export const Auth: React.FC = (): React.ReactElement => {
 
     const res = await userApi.auth(data);
     if (res.status === 'success' && typeof res.data !== 'string') {
+      socket.on('hello', () => console.log('socket hello'));
       localStorage.setItem('token', res.token!);
       dispatch(setUser(res.data));
       router.push('/');

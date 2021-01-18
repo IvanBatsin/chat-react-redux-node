@@ -1,21 +1,17 @@
 import express, { Application } from "express";
-import { IController, IControllerContructor } from "../interface/controller";
+import { IController } from "../interface/controller";
 import { passport } from '../core/passport';
 import { errorHandler } from '../middleware/errorHandler';
 import http from 'http';
 import mongoose from 'mongoose';
-import { Socket, Server } from "socket.io";
+import { Server } from "socket.io";
 const cors = require('cors');
-import { UserController } from './userContoroller';
-import { DialogController } from './dialogController';
-import { MessageComtroller } from './messageController';
 
 export class App {
   private app: Application;
   private port: number;
   private server: http.Server;
   public io: Server
-  private controllers: IControllerContructor[] = [UserController, DialogController, MessageComtroller];
 
   constructor(port: number){
     this.port = port;
@@ -28,7 +24,6 @@ export class App {
     });
 
     this.intializeMiddleware();
-    this.intializeControllers();
   }
 
   private intializeMiddleware(){
@@ -39,15 +34,8 @@ export class App {
     this.app.use(errorHandler);
   }
 
-  private createRouteController(ctr: IControllerContructor, io: Server): IController{
-    return new ctr(io);
-  }
-
-  private intializeControllers(): void {
-    this.controllers.forEach(item => {
-      const controller: IController = this.createRouteController(item, this.io);
-      this.app.use('/', controller.router);
-    });
+  public intializeControllers(controllers: IController[]): void {
+    controllers.forEach(controller => this.app.use('/', controller.router));
   }
 
   private async connectDB(): Promise<void> {
@@ -71,13 +59,6 @@ export class App {
 
   private listen(): void {
     this.server.listen(this.port, () => console.log('we on air'));
-    this.socketEventsHandler();
-  }
-
-  private socketEventsHandler(): void {
-    this.io.on('connection', (socket: Socket)=> {
-      socket.emit('test', 'Hello sucker');
-    });
   }
 
   public async startApp(): Promise<void>{

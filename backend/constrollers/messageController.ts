@@ -6,25 +6,25 @@ import { IController } from '../interface/controller';
 import { Router } from 'express';
 import { passport } from '../core/passport';
 import { updateLastSeen } from '../middleware/last_seen';
-import { Server } from 'socket.io';
+import { Socket } from 'socket.io';
 import { checkIdType } from '../utils/checkIdType';
 
 export class MessageComtroller implements IController {
   public path: string = '/messages';
   public router: Router = Router();
-  public io: Server;
+  public socket!: Socket;
 
-  constructor(socket: Server){
-    this.io = socket;
+  constructor(socket: Socket){
     this.initializeRouter();
+    this.socket = socket;
   }
 
   public initializeRouter(): void {
-    this.router.get(this.path, passport.authenticate('jwt', {session: false}), updateLastSeen, this.index.bind(this));
-    this.router.post(`${this.path}/create`, passport.authenticate('jwt', {session: false}), updateLastSeen, this.create.bind(this));
+    this.router.get(this.path, passport.authenticate('jwt', {session: false}), updateLastSeen, this.index);
+    this.router.post(`${this.path}/create`, passport.authenticate('jwt', {session: false}), updateLastSeen, this.create);
   }
 
-  async index(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
+  private index = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> => {
     try {
       const dialog = req.query.dialog;
 
@@ -44,7 +44,7 @@ export class MessageComtroller implements IController {
     }
   }
 
-  async create(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
+  private create = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> =>{
     try {
       const {text, author, partner, dialog} = req.body;
 
@@ -62,7 +62,6 @@ export class MessageComtroller implements IController {
         status: 'success',
         data: message
       });
-      this.io.emit('SERVER:NEW_MESSAGE', message);
     } catch (error) {
       console.log(error);
       next(new HttpExeption(500, ""));

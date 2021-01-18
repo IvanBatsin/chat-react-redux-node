@@ -6,7 +6,8 @@ import { IDialog } from '../../../interfaces/dialog';
 export enum MessagesActionTypes {
   SET_MESSAGES_DATA = 'messages/SET_MESSAGES_DATA',
   SET_MESSAGES_LOADING_STATUS = 'messages/SET_MESSAGES_LOADING_STATUS',
-  FETCH_MESSAGES = 'messages/FETCH_MESSAGES'
+  FETCH_MESSAGES = 'messages/FETCH_MESSAGES',
+  SET_MESSAGES_TO_INITIAL = 'messages/SET_MESSAGES_TO_INITIAL'
 }
 
 // Interfaces
@@ -22,6 +23,9 @@ export interface ISetMessagesLoadingStatus extends Action<MessagesActionTypes> {
   type: MessagesActionTypes.SET_MESSAGES_LOADING_STATUS,
   payload: LoadingState
 }
+export interface ISetMessagesToInitial extends Action<MessagesActionTypes> {
+  type: MessagesActionTypes.SET_MESSAGES_TO_INITIAL,
+}
 
 // Action creators
 export const setMessagesData = (payload: IMessage[] | undefined): ISetMessagesData => ({
@@ -36,5 +40,8 @@ export const setMessagesLoadingStatus = (payload: LoadingState): ISetMessagesLoa
   type: MessagesActionTypes.SET_MESSAGES_LOADING_STATUS,
   payload
 })
+export const setMessagesToInitial = (): ISetMessagesToInitial => ({
+  type: MessagesActionTypes.SET_MESSAGES_TO_INITIAL
+})
 
-export type MessagesAction = ISetMessagesData | IFetchMessagesData | ISetMessagesLoadingStatus;
+export type MessagesAction = ISetMessagesData | IFetchMessagesData | ISetMessagesLoadingStatus | ISetMessagesToInitial;

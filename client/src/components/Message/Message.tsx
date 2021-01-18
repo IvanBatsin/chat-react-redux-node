@@ -16,13 +16,13 @@ interface MessageProps {
   createdAt: string,
   user: IUser,
   itsMe: boolean,
-  isReaded: boolean,
+  unread: boolean,
   attachments: IAttachments[],
   isTyping: boolean
   audio?: string
 }
 
-const Message: React.FC<MessageProps> = ({text, user, createdAt, itsMe, isReaded, attachments, isTyping, audio}: MessageProps): React.ReactElement => {
+const Message: React.FC<MessageProps> = ({text, user, createdAt, itsMe, unread, attachments, isTyping, audio}: MessageProps): React.ReactElement => {
   return (
     <div className={classNames('message', {'message_me': itsMe, "message_typing": isTyping})}>
       <div className="message_avatar">
@@ -69,7 +69,7 @@ const Message: React.FC<MessageProps> = ({text, user, createdAt, itsMe, isReaded
           </div>
         </div>
         <div className="message_check">
-          <img src={isReaded ? Check : Send} alt="Check Icon"></img>
+          <img src={!unread ? Check : Send} alt="Check Icon"></img>
         </div>
       </>
     }

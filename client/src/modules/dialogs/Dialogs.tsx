@@ -13,6 +13,8 @@ import { selectUserObject } from '../../store/ducks/user/selector';
 import { getPartner } from '../../helpers/getPartner';
 import { setPartner } from '../../store/ducks/user/actionCreators';
 import { IUser } from '../../interfaces';
+import { socket } from '../../core/socket';
+import { SocketActions } from '../../interfaces/socketActions';
 
 interface IDialogsProps {
   search: string
@@ -45,6 +47,16 @@ export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React
     setDialogsState(searchedDialogs);
   }
 
+  const handleSelectDialog = (dialog: string, partner: IUser): void => {
+    dispatch(fetchMessagesData(dialog));
+    dispatch(setPartner(partner));
+    dispatch(fetchMessagesData(dialog));
+  }
+
+  socket.on(SocketActions.DIALOG_CREATED, () => {
+    dispatch(fetchDialogs(user?._id));
+  });
+
   React.useEffect(() => {
     handleFetchDialogs();
   }, []);
@@ -65,11 +77,6 @@ export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React
     }
   }, [search]);
 
-  const handleChooseDialog = (dialog: string, partner: IUser): void => {
-    dispatch(fetchMessagesData(dialog));
-    dispatch(setPartner(partner));
-  }
-
   return (
     <div className="dialogs">
       {isError && <DialogsError fetchDialogs={handleFetchDialogs}/>}
@@ -85,7 +92,7 @@ export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React
         <Empty description="Нет диалогов"/>
       :
         dialogsState?.map(item => {
-          return <DialogItem chooseDialog={handleChooseDialog} key={item._id} dialog={item} currentUser={user!}/>
+          return <DialogItem selectDialog={handleSelectDialog} key={item._id} dialog={item} currentUser={user!}/>
         })
       }
     </div>
