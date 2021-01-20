@@ -75,7 +75,10 @@ export class DialogController implements IController {
       dialog.lastMessage = message._id;
       await dialog.save();
 
-      this.socket.emit(SocketActions.DIALOG_CREATED);
+      // Emit dialog create socket event
+      // this.socket.emit(SocketActions.DIALOG_CREATED, {dialogId: dialog._id});
+      // this.socket.emit(SocketActions.DIALOG_CREATED);
+      this.socket.emit('server');
 
       res.status(201).json({
         status: 'success',

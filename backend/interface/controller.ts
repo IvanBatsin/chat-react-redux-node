@@ -5,8 +5,3 @@ export interface IController {
   path: string,
   router: Router
 }
-
-// export interface IControllerContructor {
-//   // new (io: Server): IController
-//   new (socket: Socket): IController
-// }

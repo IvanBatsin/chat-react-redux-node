@@ -1,3 +1,7 @@
 import { io } from 'socket.io-client';
 
-export const socket = io('http://localhost:5000');
+const socket = io('http://localhost:5000');
+
+socket.on('server', () => console.log('server'));
+
+export { socket };

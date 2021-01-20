@@ -20,9 +20,17 @@ const DialogItem: React.FC<IDialogProps> = ({dialog: {author, partner, createdAt
 
   const dialogPartner = getPartner(currentUser, author, partner);
 
+  React.useEffect(() => {
+    console.log('render');
+  }, []);
+
   return (
     <div className="dialogs_item" onClick={() => selectDialog(_id, dialogPartner)}>
-      <AvatarCheck avatar={dialogPartner.avatarUrl} userName={dialogPartner.fullName}>
+      <AvatarCheck 
+        avatar={dialogPartner.avatarUrl} 
+        userName={dialogPartner.fullName}
+        color={dialogPartner.bgColor!}
+      >
         {isOnline(dialogPartner.last_seen!) && <div className="dialogs_onlineStatus"></div>}
       </AvatarCheck>
       <div className="dialogs_item_message">

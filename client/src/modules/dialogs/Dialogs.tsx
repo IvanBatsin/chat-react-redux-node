@@ -24,6 +24,7 @@ export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React
   const dispatch = useDispatch();
   const fetchedDialogs = useSelector(selectDialogsData);
   const [dialogsState, setDialogsState] = React.useState<IDialog[]>([]);
+  const [currentDialog, setCurrentDialog] = React.useState<string>('');
   
   // Selectors
   const isLoading = useSelector(selectStatusIsLoadng);
@@ -48,17 +49,36 @@ export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React
   }
 
   const handleSelectDialog = (dialog: string, partner: IUser): void => {
-    dispatch(fetchMessagesData(dialog));
-    dispatch(setPartner(partner));
-    dispatch(fetchMessagesData(dialog));
-  }
+    if (dialog !== currentDialog) {
+      dispatch(fetchMessagesData(dialog));
+      dispatch(setPartner(partner));
+      dispatch(fetchMessagesData(dialog));
+      setCurrentDialog(dialog);
+    }
+  };
 
-  socket.on(SocketActions.DIALOG_CREATED, () => {
-    dispatch(fetchDialogs(user?._id));
-  });
+  // const handleSelectDialog = React.useCallback((dialog: string, partner: IUser): void => {
+  //   if (dialog !== currentDialog) {
+  //     dispatch(fetchMessagesData(dialog));
+  //     dispatch(setPartner(partner));
+  //     dispatch(fetchMessagesData(dialog));
+  //     setCurrentDialog(dialog);
+  //   }
+  // }, [dispatch, currentDialog]);
+
+  // // Socket check new dialog create
+  // socket.on(SocketActions.DIALOG_CREATED, () => {
+  //   console.log('dialog created');
+  //   dispatch(fetchDialogs(user?._id));
+  // });
 
   React.useEffect(() => {
     handleFetchDialogs();
+
+    // socket.on(SocketActions.DIALOG_CREATED, () => {
+    //   console.log('dialog created');
+    //   dispatch(fetchDialogs(user?._id));
+    // });
   }, []);
 
   React.useEffect(() => {

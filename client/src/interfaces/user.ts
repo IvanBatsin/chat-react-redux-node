@@ -7,5 +7,6 @@ export interface IUser {
   createdAt?: string,
   updatedAt?: string,
   last_seen?: string
-  confirmed?: boolean
+  confirmed?: boolean,
+  bgColor?: string
 }

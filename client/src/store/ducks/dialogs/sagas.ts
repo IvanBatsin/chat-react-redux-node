@@ -2,6 +2,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { LoadingState } from '../../../interfaces/loadingState';
 import { dialogsApi, AllDialogsResponse } from '../../../API/fetchDialogs';
 import { setDialogsLoadingStatus, setDialogsData, DialogsActionTypes, IFetchDialogsData } from './actionCreators';
+import { colorPicker } from '../../../helpers/colorPicker';
  
 
 function* fetchDialogs({payload}: IFetchDialogsData){
@@ -13,6 +14,10 @@ function* fetchDialogs({payload}: IFetchDialogsData){
     if (data.status === 'error') {
       yield put(setDialogsLoadingStatus(LoadingState.ERROR));
     } else {
+      data.data.forEach(dialog => {
+        dialog.author.bgColor = colorPicker();
+        dialog.partner.bgColor = colorPicker();
+      });
       yield put(setDialogsData(data.data));
     }
   } catch (err) {
