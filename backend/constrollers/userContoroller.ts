@@ -16,10 +16,16 @@ export class UserController implements IController {
   public path: string = '/user';
   public router: Router = Router();
   public socket!: Socket;
+  public io!: Server;
 
-  constructor(socket: Socket){
+  // constructor(socket: Socket){
+  //   this.socket = socket;
+  //   this.initializeRouter();
+  // }
+
+  constructor(io: Server){
     this.initializeRouter();
-    this.socket = socket;
+    this.io = io;
   }
 
   public initializeRouter(): void{
@@ -100,7 +106,6 @@ export class UserController implements IController {
   private afterLogin = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> => {
     try {
       if (req.user) {
-        this.socket.emit('hello');
         res.json({
           status: 'success',
           data: {

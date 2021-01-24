@@ -48,37 +48,22 @@ export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React
     setDialogsState(searchedDialogs);
   }
 
-  const handleSelectDialog = (dialog: string, partner: IUser): void => {
+  const handleSelectDialog = React.useCallback((dialog: string, partner: IUser): void => {
     if (dialog !== currentDialog) {
       dispatch(fetchMessagesData(dialog));
       dispatch(setPartner(partner));
       dispatch(fetchMessagesData(dialog));
       setCurrentDialog(dialog);
     }
-  };
-
-  // const handleSelectDialog = React.useCallback((dialog: string, partner: IUser): void => {
-  //   if (dialog !== currentDialog) {
-  //     dispatch(fetchMessagesData(dialog));
-  //     dispatch(setPartner(partner));
-  //     dispatch(fetchMessagesData(dialog));
-  //     setCurrentDialog(dialog);
-  //   }
-  // }, [dispatch, currentDialog]);
-
-  // // Socket check new dialog create
-  // socket.on(SocketActions.DIALOG_CREATED, () => {
-  //   console.log('dialog created');
-  //   dispatch(fetchDialogs(user?._id));
-  // });
+  }, [dispatch, currentDialog]);
 
   React.useEffect(() => {
     handleFetchDialogs();
 
-    // socket.on(SocketActions.DIALOG_CREATED, () => {
-    //   console.log('dialog created');
-    //   dispatch(fetchDialogs(user?._id));
-    // });
+    socket.on(SocketActions.DIALOG_CREATED, (obj: any) => {
+      console.log(obj);
+      // dispatch(fetchDialogs(user?._id));
+    });
   }, []);
 
   React.useEffect(() => {

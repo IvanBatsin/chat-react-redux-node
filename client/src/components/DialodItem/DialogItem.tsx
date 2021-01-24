@@ -20,10 +20,6 @@ const DialogItem: React.FC<IDialogProps> = ({dialog: {author, partner, createdAt
 
   const dialogPartner = getPartner(currentUser, author, partner);
 
-  React.useEffect(() => {
-    console.log('render');
-  }, []);
-
   return (
     <div className="dialogs_item" onClick={() => selectDialog(_id, dialogPartner)}>
       <AvatarCheck 

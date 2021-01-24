@@ -6,17 +6,27 @@ import { IController } from '../interface/controller';
 import { Router } from 'express';
 import { passport } from '../core/passport';
 import { updateLastSeen } from '../middleware/last_seen';
-import { Socket } from 'socket.io';
+import { Socket, Server } from 'socket.io';
 import { checkIdType } from '../utils/checkIdType';
 
 export class MessageComtroller implements IController {
   public path: string = '/messages';
   public router: Router = Router();
   public socket!: Socket;
+  public io!: Server;
 
-  constructor(socket: Socket){
+  // constructor(socket: Socket){
+  //   this.socket = socket;
+  //   this.initializeRouter();
+  // }
+
+  constructor(io: Server){
     this.initializeRouter();
-    this.socket = socket;
+    this.io = io;
+
+    this.io.on('connection', (socket: Socket) => {
+      this.socket = socket;
+    })
   }
 
   public initializeRouter(): void {

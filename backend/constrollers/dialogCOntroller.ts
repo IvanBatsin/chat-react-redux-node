@@ -5,7 +5,7 @@ import { passport } from '../core/passport';
 import { updateLastSeen } from '../middleware/last_seen';
 import { IController } from '../interface/controller';
 import { HttpExeption } from '../interface/httpExeption';
-import { Socket } from 'socket.io';
+import { Socket, Server } from 'socket.io';
 import { checkIdType } from '../utils/checkIdType';
 import { SocketActions } from '../interface/socketActions'; 
 
@@ -13,11 +13,21 @@ export class DialogController implements IController {
   public path: string = '/dialogs';
   public router: Router = Router();
   public socket!: Socket;
+  public io!: Server;
 
-  constructor(socket: Socket){
-    this.initializeRouter();
-    this.socket = socket;
+  // constructor(socket: Socket){
+  //   this.socket = socket;
+  //   this.initializeRouter();
+  // }
+
+  constructor(io: Server){
+    // this.io = io;
+    io.on('connection', (socket: Socket) => {
+      this.initializeRouter();
+      this.socket = socket;
+    });
   }
+
 
   public initializeRouter(): void {
     this.router.get(`${this.path}/:author`, passport.authenticate('jwt', {session: false}), updateLastSeen, this.index);
@@ -32,7 +42,7 @@ export class DialogController implements IController {
         return next(new HttpExeption(404, 'Не верный запрос'));
       }
 
-      const dialogs = await DialogModel.find({$or: [{author}, {partner: author}]}).populate(['author', 'partner', 'lastMessage']).exec();
+      const dialogs = await DialogModel.find({$or: [{author}, {partner: author}]}).populate(['author', 'partner', 'lastMessage']).sort({updatedAt: -1}).exec();
 
       res.json({
         status: 'success',
@@ -74,16 +84,13 @@ export class DialogController implements IController {
       // Edit last message in dialog
       dialog.lastMessage = message._id;
       await dialog.save();
-
-      // Emit dialog create socket event
-      // this.socket.emit(SocketActions.DIALOG_CREATED, {dialogId: dialog._id});
-      // this.socket.emit(SocketActions.DIALOG_CREATED);
-      this.socket.emit('server');
-
+      
       res.status(201).json({
         status: 'success',
         data: {dialog, message}
       });
+      
+      this.socket.emit(SocketActions.DIALOG_CREATED, {dialog});
     } catch (error) {
       console.log(error);
       next(new HttpExeption(500, ""));

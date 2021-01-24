@@ -29,7 +29,7 @@ export const userApi = {
 
   async auth(payload: IAuthPayload): Promise<IAuthUser> {
     try {
-      const {data} = await axios.post<IAuthUser>('/user/signin', payload);
+      const {data} = await axios.post<IAuthUser>('http://localhost:5000/user/signin', payload);
       return data;
     } catch (error) {
       if (typeof error.response.data === 'string') {

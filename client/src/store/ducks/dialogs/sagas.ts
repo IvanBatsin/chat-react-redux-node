@@ -7,6 +7,7 @@ import { colorPicker } from '../../../helpers/colorPicker';
 
 function* fetchDialogs({payload}: IFetchDialogsData){
   try {
+    yield put(setDialogsData(undefined));
     yield put(setDialogsLoadingStatus(LoadingState.LOADING));
 
     const data: AllDialogsResponse = yield call(dialogsApi.fetchAllDialogs, payload);
