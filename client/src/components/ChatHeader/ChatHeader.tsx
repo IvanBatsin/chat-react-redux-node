@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { isOnline } from '../../helpers/isOnline';
-import { selectPartnerObject } from '../../store/ducks/user/selector';
+import { selectUserPartner } from '../../store/ducks/user/selector';
 import { Dropdown } from '../ChatHeaderDropdown/Dropdown';
 
 export const ChatHeader: React.FC = (): React.ReactElement => {
   const [dropdown, setDropdown] = React.useState<boolean>(false);
-  const partner = useSelector(selectPartnerObject);
+  const partner = useSelector(selectUserPartner);
 
   const handleDropdown = () => {
     setDropdown(prevState => !prevState);

@@ -10,6 +10,8 @@
   }
 
   .chat {
-    width: 70%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
   }
 }

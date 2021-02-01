@@ -4,7 +4,7 @@ import { RuleObject } from 'antd/lib/form';
 import { Form, Input, notification } from 'antd';
 import { Link } from 'react-router-dom';
 import { IRegisterForm } from '../../../interfaces/index';
-import { userApi, IRegisterUser } from '../../../API/fetchUser';
+import { userApi, IRegisterUser } from '../../../API/userApi';
 import { setUser } from '../../../store/ducks/user/actionCreators';
 import { useDispatch } from 'react-redux';
 import { InputComponent } from '../../../components/formField/Input';

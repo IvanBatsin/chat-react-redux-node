@@ -3,5 +3,5 @@ import { IMessage } from '../../../interfaces/message';
 
 export interface MessagesState {
   data: IMessage[] | undefined,
-  status: LoadingState
+  loadingState: LoadingState
 }

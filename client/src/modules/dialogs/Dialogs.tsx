@@ -5,11 +5,11 @@ import DialogItemLoader from '../../components/DialodItem/DialogItemLoader';
 import { Empty } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDialogs } from '../../store/ducks/dialogs/actionCreators';
-import { selectDialogsData, selectStatusIsLoadng, selectStatusIsLoaded, selectStatusIsError } from '../../store/ducks/dialogs/selector';
+import { selectDialogsData, selectDialogsStatusIsLoading, selectDialogsStatusIsLoaded, selectDialogsStatusIsError } from '../../store/ducks/dialogs/selector';
 import { fetchMessagesData } from '../../store/ducks/messages/actionCreators';
 import { IDialog } from '../../interfaces/dialog';
 import { DialogsError } from '../../components/Dialogs/DialogsError';
-import { selectUserObject } from '../../store/ducks/user/selector';
+import { selectUserStateData } from '../../store/ducks/user/selector';
 import { getPartner } from '../../helpers/getPartner';
 import { setPartner } from '../../store/ducks/user/actionCreators';
 import { IUser } from '../../interfaces';
@@ -27,10 +27,10 @@ export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React
   const [currentDialog, setCurrentDialog] = React.useState<string>('');
   
   // Selectors
-  const isLoading = useSelector(selectStatusIsLoadng);
-  const isLoaded = useSelector(selectStatusIsLoaded);
-  const isError = useSelector(selectStatusIsError);
-  const user = useSelector(selectUserObject);
+  const isLoading = useSelector(selectDialogsStatusIsLoading);
+  const isLoaded = useSelector(selectDialogsStatusIsLoaded);
+  const isError = useSelector(selectDialogsStatusIsError);
+  const user = useSelector(selectUserStateData);
 
   const handleFetchDialogs = (): void => {
     if (user) {

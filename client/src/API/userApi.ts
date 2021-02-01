@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { IRegisterForm } from '../interfaces/registerForm';
 import { IUser } from '../interfaces/user';
 import { ISetUser } from '../store/ducks/user/actionCreators'
 
@@ -18,7 +19,7 @@ export interface IAuthUser {
 }
 
 export const userApi = {
-  async register(payload: ISetUser['payload']): Promise<IRegisterUser> {
+  async register(payload: IRegisterForm): Promise<IRegisterUser> {
     try {
       const {data} = await axios.post<IRegisterUser>('/user/signup', payload);
       return data;

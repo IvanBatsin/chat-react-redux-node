@@ -15,13 +15,7 @@ export class DialogController implements IController {
   public socket!: Socket;
   public io!: Server;
 
-  // constructor(socket: Socket){
-  //   this.socket = socket;
-  //   this.initializeRouter();
-  // }
-
   constructor(io: Server){
-    // this.io = io;
     io.on('connection', (socket: Socket) => {
       this.initializeRouter();
       this.socket = socket;

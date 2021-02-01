@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { LoadingState } from '../../../interfaces/loadingState';
-import { dialogsApi, AllDialogsResponse } from '../../../API/fetchDialogs';
+import { dialogsApi, AllDialogsResponse } from '../../../API/dialogApi';
 import { setDialogsLoadingStatus, setDialogsData, DialogsActionTypes, IFetchDialogsData } from './actionCreators';
 import { colorPicker } from '../../../helpers/colorPicker';
  

@@ -18,11 +18,6 @@ export class UserController implements IController {
   public socket!: Socket;
   public io!: Server;
 
-  // constructor(socket: Socket){
-  //   this.socket = socket;
-  //   this.initializeRouter();
-  // }
-
   constructor(io: Server){
     this.initializeRouter();
     this.io = io;
@@ -32,6 +27,7 @@ export class UserController implements IController {
     this.router.post(`${this.path}/signup`, registerValidation, this.create);
     this.router.get(`${this.path}/verify`, this.verify);
     this.router.post(`${this.path}/signin`, passport.authenticate('local'), updateLastSeen, this.afterLogin);
+    this.router.get(`${this.path}/me`, passport.authenticate('jwt', {session: false}), updateLastSeen, this.getMe);
   }
 
   private create = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction>  => {
@@ -124,6 +120,23 @@ export class UserController implements IController {
     } catch (error) {
       console.log(error);
       next(new HttpExeption(500, ""));
+    }
+  }
+
+  private getMe = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> => {
+    try {
+      if (req.user) {
+        console.log(req.user);
+        res.json({
+          status: 'success',
+          data: req.user
+        });
+        return;
+      }
+      return next(new HttpExeption(404, 'User not found'));
+    } catch (error) {
+      console.log(error);
+      return next(new HttpExeption());
     }
   }
 }

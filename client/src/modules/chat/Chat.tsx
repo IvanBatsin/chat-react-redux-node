@@ -7,19 +7,19 @@ import { MessageInput } from '../../components/Message/MessageInput';
 import LoadMessage from '../../img/loadMessage.svg';
 import SendMessage from '../../img/sendMessage.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectMessagesData, selectIsLoading, selectIsLoaded } from '../../store/ducks/messages/selector';
-import { selectUserObject, selectPartnerObject } from '../../store/ducks/user/selector';
+import { selectMessagesData, selectMessagesStatusIsLoading, selectMessagesStatusIsLoaded } from '../../store/ducks/messages/selector';
+import { selectUserStateData, selectUserPartner } from '../../store/ducks/user/selector';
 import { IUser } from '../../interfaces';
 
 export const Chat: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
   const messages = useSelector(selectMessagesData);
-  const isLoading = useSelector(selectIsLoading);
-  const isLoaded = useSelector(selectIsLoaded);
+  const isLoading = useSelector(selectMessagesStatusIsLoading);
+  const isLoaded = useSelector(selectMessagesStatusIsLoaded);
   const messagesContainer = React.useRef<HTMLDivElement>(null);
 
-  const user = useSelector(selectUserObject);
-  const partner = useSelector(selectPartnerObject);
+  const user = useSelector(selectUserStateData);
+  const partner = useSelector(selectUserPartner);
 
   React.useEffect(() => {
     if (messages) {

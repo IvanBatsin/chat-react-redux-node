@@ -66,6 +66,7 @@
   },
   "devDependencies": {
     "@types/emoji-mart": "^3.0.4",
+    "@types/react-router-dom": "^5.1.7",
     "react-styleguidist": "^11.1.4"
   }
 }

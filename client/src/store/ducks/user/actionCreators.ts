@@ -1,10 +1,12 @@
 import { Action } from 'redux';
+import { LoadingState } from '../../../interfaces/loadingState';
 import { IUser } from '../../../interfaces/user';
 
 export enum UserActionTypes {
   SET_USER = 'user/SET_USER',
   SER_PARTNER = 'user/SER_PARTNER',
-  USER_EXIT = 'user/USER_EXIT'
+  USER_EXIT = 'user/USER_EXIT',
+  SET_USER_LOADING_STATE = 'user/SET_USER_LOADING_STATE'
 }
 
 // Interfaces
@@ -19,6 +21,10 @@ export interface ISetPartner extends Action<UserActionTypes> {
 export interface ISetUserToInitial extends Action<UserActionTypes> {
   type: UserActionTypes.USER_EXIT
 }
+export interface ISetUserLoadingState extends Action<UserActionTypes> {
+  type: UserActionTypes.SET_USER_LOADING_STATE,
+  payload: LoadingState
+}
 
 // Actions
 export const setUser = (payload: IUser | undefined): ISetUser => ({
@@ -32,5 +38,9 @@ export const setPartner = (payload: IUser | undefined): ISetPartner => ({
 export const setUserToInitial = (): ISetUserToInitial => ({
   type: UserActionTypes.USER_EXIT
 });
+export const setUserLoadingState = (payload: LoadingState): ISetUserLoadingState => ({
+  type: UserActionTypes.SET_USER_LOADING_STATE,
+  payload
+});
 
-export type UserAction = ISetUser | ISetPartner | ISetUserToInitial;
+export type UserAction = ISetUser | ISetPartner | ISetUserToInitial | ISetUserLoadingState;

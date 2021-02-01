@@ -3,5 +3,5 @@ import { LoadingState } from '../../../interfaces/loadingState';
 
 export interface DialogsState {
   data: IDialog[] | undefined,
-  status: LoadingState
+  loadingState: LoadingState
 }

@@ -4,11 +4,11 @@ import { Chat } from '../../modules/';
 import { SideBar } from '../../components';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectUserObject } from '../../store/ducks/user/selector';
+import { selectUserStateData } from '../../store/ducks/user/selector';
 
 export const Home: React.FC = (): React.ReactElement => {
   const router = useHistory();
-  const user = useSelector(selectUserObject);
+  const user = useSelector(selectUserStateData);
 
   React.useEffect(() => {
     if (!user?.confirmed || !user) {

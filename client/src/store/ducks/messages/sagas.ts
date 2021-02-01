@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { messagesApi, MessagesResponse } from '../../../API/fetchMessages';
+import { messagesApi, MessagesResponse } from '../../../API/messageApi';
 import { LoadingState } from '../../../interfaces/loadingState';
 import { setMessagesData, setMessagesLoadingStatus, MessagesActionTypes, IFetchMessagesData } from './actionCreators';
 

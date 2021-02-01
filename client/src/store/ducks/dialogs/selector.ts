@@ -2,12 +2,12 @@ import { IDialog } from '../../../interfaces/dialog';
 import { LoadingState } from '../../../interfaces/loadingState';
 import { RootStore } from '../../rootStore';
 
-export const selectDialogs = (store: RootStore): RootStore['dialogs'] => store.dialogs;
+export const selectDialogsState = (store: RootStore): RootStore['dialogs'] => store.dialogs;
 
-export const selectDialogsData = (store: RootStore): IDialog[] | undefined => selectDialogs(store).data;
+export const selectDialogsData = (store: RootStore): IDialog[] | undefined => selectDialogsState(store).data;
 
-export const selectDialogsStatus = (store: RootStore): LoadingState => selectDialogs(store).status;
+export const selectDialogsLoadingState = (store: RootStore): LoadingState => selectDialogsState(store).loadingState;
 
-export const selectStatusIsLoadng = (store: RootStore): boolean => selectDialogs(store).status === LoadingState.LOADING;
-export const selectStatusIsLoaded = (store: RootStore): boolean => selectDialogs(store).status === LoadingState.LOADED;
-export const selectStatusIsError = (store: RootStore): boolean => selectDialogs(store).status === LoadingState.ERROR;
+export const selectDialogsStatusIsLoading = (store: RootStore): boolean => selectDialogsState(store).loadingState === LoadingState.LOADING;
+export const selectDialogsStatusIsLoaded = (store: RootStore): boolean => selectDialogsState(store).loadingState === LoadingState.LOADED;
+export const selectDialogsStatusIsError = (store: RootStore): boolean => selectDialogsState(store).loadingState === LoadingState.ERROR;

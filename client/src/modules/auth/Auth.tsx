@@ -3,7 +3,7 @@ import './auth.scss';
 import { Button, WhiteBlock } from '../../components';
 import { Form, Input, notification } from 'antd';
 import { Link } from 'react-router-dom';
-import { userApi, IAuthPayload } from '../../API/fetchUser';
+import { userApi, IAuthPayload } from '../../API/userApi';
 import { useHistory } from 'react-router-dom';
 import { setUser } from '../../store/ducks/user/actionCreators';
 import { useDispatch } from 'react-redux';

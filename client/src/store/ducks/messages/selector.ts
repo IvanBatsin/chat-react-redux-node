@@ -2,12 +2,12 @@ import { IMessage } from '../../../interfaces';
 import { LoadingState } from '../../../interfaces/loadingState';
 import { RootStore } from '../../rootStore';
 
-export const selectMessages = (store: RootStore): RootStore['messages'] => store.messages;
+export const selectMessagesState = (store: RootStore): RootStore['messages'] => store.messages;
 
-export const selectMessagesLoadingStatus = (store: RootStore): LoadingState => selectMessages(store).status;
+export const selectMessagesLoadingState = (store: RootStore): LoadingState => selectMessagesState(store).loadingState;
 
-export const selectMessagesData = (store: RootStore): IMessage[] | undefined => selectMessages(store).data; 
+export const selectMessagesData = (store: RootStore): IMessage[] | undefined => selectMessagesState(store).data; 
 
-export const selectIsLoaded = (store: RootStore): boolean => selectMessages(store).status === LoadingState.LOADED;
-export const selectIsLoading = (store: RootStore): boolean => selectMessages(store).status === LoadingState.LOADING;
-export const selectIsError = (store: RootStore): boolean => selectMessages(store).status === LoadingState.ERROR;
+export const selectMessagesStatusIsLoaded = (store: RootStore): boolean => selectMessagesState(store).loadingState === LoadingState.LOADED;
+export const selectMessagesStatusIsLoading = (store: RootStore): boolean => selectMessagesState(store).loadingState === LoadingState.LOADING;
+export const selectMessagesStatusIsError = (store: RootStore): boolean => selectMessagesState(store).loadingState === LoadingState.ERROR;
