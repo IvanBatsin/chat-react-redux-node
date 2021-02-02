@@ -4,7 +4,7 @@ import { RuleObject } from 'antd/lib/form';
 import { Form, Input, notification } from 'antd';
 import { Link } from 'react-router-dom';
 import { IRegisterForm } from '../../../interfaces/index';
-import { userApi, IRegisterUser } from '../../../API/userApi';
+import { userApi } from '../../../API/userApi';
 import { setUser } from '../../../store/ducks/user/actionCreators';
 import { useDispatch } from 'react-redux';
 import { InputComponent } from '../../../components/formField/Input';
@@ -46,7 +46,7 @@ export const RegisterForm: React.FC = (): React.ReactElement => {
 
   const handleSubmit = async (): Promise<void> => {
     setBtnDisable(true);
-    const res: IRegisterUser = await userApi.register(data);
+    const res = await userApi.register(data);
 
     if (res.status === 'success' && typeof res.data !== 'string') {
       dispatch(setUser(res.data));

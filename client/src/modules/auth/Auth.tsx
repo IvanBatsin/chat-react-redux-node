@@ -36,7 +36,7 @@ export const Auth: React.FC = (): React.ReactElement => {
   const handleFormSubmit = async (): Promise<void> => {
     setBtnDisable(true);
 
-    const res = await userApi.auth(data);
+    const res = await userApi.login(data);
     if (res.status === 'success' && typeof res.data !== 'string') {
       localStorage.setItem('token', res.token!);
       res.data.bgColor = colorPicker();

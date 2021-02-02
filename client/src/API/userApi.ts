@@ -1,45 +1,38 @@
-import axios from 'axios';
+import { axios } from '../core/axios';
 import { IRegisterForm } from '../interfaces/registerForm';
 import { IUser } from '../interfaces/user';
-import { ISetUser } from '../store/ducks/user/actionCreators'
+
+type ServerStatus = 'success' | 'error';
 
 export interface IAuthPayload {
   email: string,
   password: string
 }
 
-export interface IRegisterUser {
-  status: 'success' | 'error',
-  data: IUser | string
+export interface ServerResponse<T> {
+  status: ServerStatus,
+  data: T
 }
-export interface IAuthUser {
-  status: 'success' | 'error',
+
+export interface ILoginUser {
+  status: ServerStatus,
   data: IUser | string,
   token?: string
 }
 
 export const userApi = {
-  async register(payload: IRegisterForm): Promise<IRegisterUser> {
-    try {
-      const {data} = await axios.post<IRegisterUser>('/user/signup', payload);
-      return data;
-    } catch (error) {
-      return error.response.data;
-    }
+  async register(payload: IRegisterForm): Promise<ServerResponse<IUser>> {
+    const {data} = await axios.post<ServerResponse<IUser>>('http://localhost:5000/user/signup', payload);
+    return data;
   },
 
-  async auth(payload: IAuthPayload): Promise<IAuthUser> {
-    try {
-      const {data} = await axios.post<IAuthUser>('http://localhost:5000/user/signin', payload);
-      return data;
-    } catch (error) {
-      if (typeof error.response.data === 'string') {
-        return {
-          status: 'error',
-          data: error.response.data
-        }
-      }
-      return error.response.data;
-    }
+  async login(payload: IAuthPayload): Promise<ILoginUser> {
+    const {data} = await axios.post<ILoginUser>('http://localhost:5000/user/signin', payload);
+    return data;
+  },
+
+  async getMe(): Promise<ServerResponse<IUser>> {
+    const { data } = await axios.get<ServerResponse<IUser>>('http://localhost:5000/user/me');
+    return data;
   }
 }

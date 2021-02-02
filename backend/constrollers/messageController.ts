@@ -7,7 +7,8 @@ import { Router } from 'express';
 import { passport } from '../core/passport';
 import { updateLastSeen } from '../middleware/last_seen';
 import { Socket, Server } from 'socket.io';
-import { checkIdType } from '../utils/checkIdType';
+import { validationResult } from 'express-validator';
+import { messageValidatorIndex, messageValidatorCreate } from '../validations/messageValidator';
 
 export class MessageComtroller implements IController {
   public path: string = '/messages';
@@ -15,32 +16,28 @@ export class MessageComtroller implements IController {
   public socket!: Socket;
   public io!: Server;
 
-  // constructor(socket: Socket){
-  //   this.socket = socket;
-  //   this.initializeRouter();
-  // }
-
   constructor(io: Server){
     this.initializeRouter();
     this.io = io;
 
     this.io.on('connection', (socket: Socket) => {
       this.socket = socket;
-    })
+    });
   }
 
   public initializeRouter(): void {
-    this.router.get(this.path, passport.authenticate('jwt', {session: false}), updateLastSeen, this.index);
-    this.router.post(`${this.path}/create`, passport.authenticate('jwt', {session: false}), updateLastSeen, this.create);
+    this.router.get(this.path, passport.authenticate('jwt', {session: false}), updateLastSeen, messageValidatorIndex, this.index);
+    this.router.post(`${this.path}/create`, passport.authenticate('jwt', {session: false}), updateLastSeen, messageValidatorCreate, this.create);
   }
 
   private index = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> => {
     try {
-      const dialog = req.query.dialog;
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(new HttpExeption(404, errors.array()[0].msg));
+      }
 
-      if (!dialog || !checkIdType(dialog.toString())) {
-        return next(new HttpExeption(404, "Неверный запрос"))
-      };
+      const dialog = req.query.dialog;
 
       const messages = await MessageModel.find({dialog}).populate('dialog').exec();
 
@@ -54,13 +51,14 @@ export class MessageComtroller implements IController {
     }
   }
 
-  private create = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> =>{
+  private create = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> => {
     try {
-      const {text, author, partner, dialog} = req.body;
-
-      if (!checkIdType(author, partner, dialog)) {
-        return next(new HttpExeption(404, "Не верный запрос"));
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(new HttpExeption(400, errors.array()[0].msg));
       }
+      
+      const {text, author, partner, dialog} = req.body;
 
       // Create new message
       const message = new MessageModel({text, author, partner, dialog});

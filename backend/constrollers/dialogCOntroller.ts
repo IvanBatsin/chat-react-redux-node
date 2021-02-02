@@ -6,8 +6,9 @@ import { updateLastSeen } from '../middleware/last_seen';
 import { IController } from '../interface/controller';
 import { HttpExeption } from '../interface/httpExeption';
 import { Socket, Server } from 'socket.io';
-import { checkIdType } from '../utils/checkIdType';
 import { SocketActions } from '../interface/socketActions'; 
+import { dialogValidatorIndex, dialogValidatorCreate } from '../validations/dialogValidator';
+import { validationResult } from 'express-validator';
 
 export class DialogController implements IController {
   public path: string = '/dialogs';
@@ -24,17 +25,18 @@ export class DialogController implements IController {
 
 
   public initializeRouter(): void {
-    this.router.get(`${this.path}/:author`, passport.authenticate('jwt', {session: false}), updateLastSeen, this.index);
-    this.router.post(`${this.path}/create`, passport.authenticate('jwt', {session: false}), updateLastSeen, this.create);
+    this.router.get(`${this.path}/:author`, passport.authenticate('jwt', {session: false}), updateLastSeen, dialogValidatorIndex, this.index);
+    this.router.post(`${this.path}/create`, passport.authenticate('jwt', {session: false}), updateLastSeen, dialogValidatorCreate, this.create);
   }
 
   private index = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> => {
     try {
-      const author: string = req.params.author;
-
-      if (!author || !checkIdType(author)) {
-        return next(new HttpExeption(404, 'Не верный запрос'));
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(new HttpExeption(400, errors.array()[0].msg));
       }
+
+      const {author} = req.params;
 
       const dialogs = await DialogModel.find({$or: [{author}, {partner: author}]}).populate(['author', 'partner', 'lastMessage']).sort({updatedAt: -1}).exec();
 
@@ -50,11 +52,12 @@ export class DialogController implements IController {
 
   private create = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> => {
     try {
-      const {author, partner, text} = req.body;
-
-      if (!checkIdType(author, partner)) {
-        return next(new HttpExeption(404, 'Не верный запрос'));
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(new HttpExeption(400, errors.array()[0].msg));
       }
+
+      const {author, partner, text} = req.body;
 
       const condidate = await DialogModel.findOne({$or: [
         {author: author, partner: partner}, 

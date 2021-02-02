@@ -2,7 +2,7 @@ import { IController } from "../interface/controller";
 import { updateLastSeen } from '../middleware/last_seen';
 import { Router, Request, Response, NextFunction } from 'express';
 import { HttpExeption } from '../interface/httpExeption';
-import { registerValidation } from '../validations/userValidation';
+import { userRegisterValidation } from '../validations/userValidator';
 import bcrypt from 'bcryptjs';
 import { generateHash } from '../utils/generateHash';
 import { sendMail } from '../utils/sendMails';
@@ -24,7 +24,7 @@ export class UserController implements IController {
   }
 
   public initializeRouter(): void{
-    this.router.post(`${this.path}/signup`, registerValidation, this.create);
+    this.router.post(`${this.path}/signup`, userRegisterValidation, this.create);
     this.router.get(`${this.path}/verify`, this.verify);
     this.router.post(`${this.path}/signin`, passport.authenticate('local'), updateLastSeen, this.afterLogin);
     this.router.get(`${this.path}/me`, passport.authenticate('jwt', {session: false}), updateLastSeen, this.getMe);
@@ -34,11 +34,7 @@ export class UserController implements IController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        res.status(400).json({
-          status: 'error',
-          data: errors.array()[0].toString()
-        });
-        return;
+        return next(new HttpExeption(400, errors.array()[0].msg));
       }
 
       const {email, password, fullName, userName} = req.body;
@@ -46,11 +42,7 @@ export class UserController implements IController {
       const condidate = await UserModel.findOne({email});
 
       if (condidate) {
-        res.status(409).json({
-          status: 'error',
-          data: 'Email already exists'
-        });
-        return;
+        return next(new HttpExeption(409, 'Email already exists'));
       }
 
       const hashPassword = await bcrypt.hash(password, 12);
@@ -78,7 +70,7 @@ export class UserController implements IController {
       });
     } catch (error) {
       console.log(error);
-      next(new HttpExeption(500, ""));
+      next(new HttpExeption());
     }
   }
 
@@ -95,7 +87,7 @@ export class UserController implements IController {
       res.redirect('http://localhost:3000/auth/signin')
     } catch (error) {
       console.log(error);
-      next(new HttpExeption(500, ""));
+      next(new HttpExeption());
     }
   }
 
@@ -112,14 +104,11 @@ export class UserController implements IController {
           token: jwt.sign({data: req.user}, process.env.SECRET_KEY || 'secret key', {expiresIn: "30 d"})
         });
       } else {
-        res.status(403).json({
-          status: 'error',
-          data: 'Unauthorized'
-        });
+        return next(new HttpExeption(403, 'Unauthorized'));
       }
     } catch (error) {
       console.log(error);
-      next(new HttpExeption(500, ""));
+      next(new HttpExeption());
     }
   }
 
@@ -131,9 +120,9 @@ export class UserController implements IController {
           status: 'success',
           data: req.user
         });
-        return;
+      } else {
+        return next(new HttpExeption(404, 'User not found'));
       }
-      return next(new HttpExeption(404, 'User not found'));
     } catch (error) {
       console.log(error);
       return next(new HttpExeption());
