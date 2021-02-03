@@ -4,10 +4,11 @@ import { IUser } from '../../../interfaces/user';
 
 export enum UserActionTypes {
   SET_USER = 'user/SET_USER',
-  SER_PARTNER = 'user/SER_PARTNER',
+  SET_PARTNER = 'user/SET_PARTNER',
   USER_EXIT = 'user/USER_EXIT',
   SET_USER_LOADING_STATE = 'user/SET_USER_LOADING_STATE',
-  GET_ME = 'user/GET_ME'
+  GET_ME = 'user/GET_ME',
+  USER_RESIGNUP = 'user/USER_RESIGNUP'
 }
 
 // Interfaces
@@ -16,7 +17,7 @@ export interface ISetUser extends Action<UserActionTypes> {
   payload: IUser | undefined
 }
 export interface ISetPartner extends Action<UserActionTypes> {
-  type: UserActionTypes.SER_PARTNER,
+  type: UserActionTypes.SET_PARTNER,
   payload: IUser | undefined
 }
 export interface ISetUserToInitial extends Action<UserActionTypes> {
@@ -30,13 +31,14 @@ export interface IUserGetMe extends Action<UserActionTypes> {
   type: UserActionTypes.GET_ME
 }
 
+
 // Actions
 export const setUser = (payload: IUser | undefined): ISetUser => ({
   type: UserActionTypes.SET_USER,
   payload
 });
 export const setPartner = (payload: IUser | undefined): ISetPartner => ({
-  type: UserActionTypes.SER_PARTNER,
+  type: UserActionTypes.SET_PARTNER,
   payload
 });
 export const setUserToInitial = (): ISetUserToInitial => ({

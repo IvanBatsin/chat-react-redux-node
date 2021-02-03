@@ -52,7 +52,6 @@ export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React
     if (dialog !== currentDialog) {
       dispatch(fetchMessagesData(dialog));
       dispatch(setPartner(partner));
-      dispatch(fetchMessagesData(dialog));
       setCurrentDialog(dialog);
     }
   }, [dispatch, currentDialog]);
@@ -60,10 +59,10 @@ export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React
   React.useEffect(() => {
     handleFetchDialogs();
 
-    socket.on(SocketActions.DIALOG_CREATED, (obj: any) => {
-      console.log(obj);
-      // dispatch(fetchDialogs(user?._id));
-    });
+    // socket.on(SocketActions.DIALOG_CREATED, (obj: any) => {
+    //   console.log(obj);
+    //   dispatch(fetchDialogs(user?._id));
+    // });
   }, []);
 
   React.useEffect(() => {

@@ -1,18 +1,14 @@
 import axios from 'axios';
 import { IMessage } from '../interfaces';
 
-export interface MessagesResponse {
+export interface ServerMessageResponse<Data> {
   status: 'error' | 'success',
-  data: IMessage[]
+  data: Data
 }
 
 export const messagesApi = {
-  async fetchMessages(dialog: string): Promise<MessagesResponse>{
-    try {
-      const {data} = await axios.get<MessagesResponse>(`/messages?dialog=${dialog}`);
-      return data;
-    } catch (error) {
-      return error.response.data;
-    }
+  async fetchMessages(dialog: string): Promise<ServerMessageResponse<IMessage[]>>{
+    const {data} = await axios.get<ServerMessageResponse<IMessage[]>>(`/messages?dialog=${dialog}`);
+    return data;
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import './messageLoader.scss';
+import './loaders.scss';
 
 interface IMessageEmptyProps {
   src: string

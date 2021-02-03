@@ -40,7 +40,7 @@ const DialogItem: React.FC<IDialogProps> = ({dialog: {author, partner, createdAt
         </div>
         <div className="dialogs_item_message_content">
           <span 
-            className={`dialogs_item_message_content_text ${lastMessage.author === currentUser._id && 'my_message'}`}>
+            className={`dialogs_item_message_content_text ${lastMessage.author._id === currentUser._id && 'my_message'}`}>
               {lastMessage.text}
           </span>
           {lastMessage.unread ? 

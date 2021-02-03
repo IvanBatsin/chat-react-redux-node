@@ -11,7 +11,7 @@ interface IButtonProps {
   disable?: boolean
 }
 
-const ButtonComnponent: React.FC<IButtonProps> = ({children, className, type = 'primary', htmlType = 'button', disable = false}: IButtonProps): React.ReactElement => {
+const ButtonComnponent: React.FC<IButtonProps> = ({children, className, type = 'primary', htmlType = 'button', disable = false}: IButtonProps) => {
   return (
   <Button disabled={disable} htmlType={htmlType} type={type} className={classNames(className)}>{children}</Button>
   )

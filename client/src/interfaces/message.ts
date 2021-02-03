@@ -5,7 +5,7 @@ import { IDialog } from './dialog';
 export interface IMessage {
   _id: string,
   dialog: string,
-  author: string,
+  author: IUser,
   text: string,
   unread: boolean,
   createdAt: string,

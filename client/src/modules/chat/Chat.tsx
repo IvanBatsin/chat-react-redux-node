@@ -39,17 +39,13 @@ export const Chat: React.FC = (): React.ReactElement => {
           <MessageEmpty src={SendMessage}/>
         :
           messages?.map(item => {
-            const itsMe = item.author === user!._id;
+            const itsMe = item.author._id === user!._id;
             return (
               <Message
                 key={item._id}
-                unread={item.unread}
+                message={item}
                 isTyping={typing}
                 itsMe={itsMe}
-                attachments={[]}
-                createdAt={item.createdAt}
-                text={item.text}
-                user={itsMe ? user! : partner!}
               />
             )
           })

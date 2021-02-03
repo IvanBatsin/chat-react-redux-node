@@ -1,13 +1,8 @@
 import { axios } from '../core/axios';
-import { IRegisterForm } from '../interfaces/registerForm';
+import { ServerStatus } from '../interfaces/types';
 import { IUser } from '../interfaces/user';
-
-type ServerStatus = 'success' | 'error';
-
-export interface IAuthPayload {
-  email: string,
-  password: string
-}
+import { ISignInPayload } from '../modules/signIn/SignIn';
+import { ISignUpForm } from '../modules/signUp/components/SignUpForm';
 
 export interface ServerResponse<T> {
   status: ServerStatus,
@@ -21,18 +16,18 @@ export interface ILoginUser {
 }
 
 export const userApi = {
-  async register(payload: IRegisterForm): Promise<ServerResponse<IUser>> {
-    const {data} = await axios.post<ServerResponse<IUser>>('http://localhost:5000/user/signup', payload);
+  async signUp(payload: ISignUpForm): Promise<ServerResponse<IUser>> {
+    const {data} = await axios.post<ServerResponse<IUser>>('user/signup', payload);
     return data;
   },
 
-  async login(payload: IAuthPayload): Promise<ILoginUser> {
-    const {data} = await axios.post<ILoginUser>('http://localhost:5000/user/signin', payload);
+  async signIn(payload: ISignInPayload): Promise<ILoginUser> {
+    const {data} = await axios.post<ILoginUser>('user/signin', payload);
     return data;
   },
 
   async getMe(): Promise<ServerResponse<IUser>> {
-    const { data } = await axios.get<ServerResponse<IUser>>('http://localhost:5000/user/me');
+    const {data} = await axios.get<ServerResponse<IUser>>('/user/me');
     return data;
   }
 }

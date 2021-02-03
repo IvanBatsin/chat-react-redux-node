@@ -2,21 +2,14 @@ import { axios } from '../core/axios';
 import { IUser } from '../interfaces';
 import { IDialog } from '../interfaces/dialog';
 
-export interface AllDialogsResponse {
+export interface ServerDialogResponse<Data> {
   status: 'error' | 'success',
-  data: IDialog[]
+  data: Data
 }
 
 export const dialogsApi = {
-  async fetchAllDialogs(payload: IUser['_id']): Promise<AllDialogsResponse> {
-    try {
-      const {data} = await axios.get<AllDialogsResponse>(`/dialogs/${payload}`);
-      return data;
-    } catch (error) {
-      return {
-        status: 'error',
-        data: []
-      }
-    }
+  async fetchAllDialogs(payload: IUser['_id']): Promise<ServerDialogResponse<IDialog[]>> {
+    const {data} = await axios.get<ServerDialogResponse<IDialog[]>>(`/dialogs/${payload}`);
+    return data;
   }
 };

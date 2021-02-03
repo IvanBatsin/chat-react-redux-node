@@ -1,12 +1,13 @@
 import React from 'react';
-import {Route} from 'react-router-dom';
-import { Auth, Register } from '../../modules/index';
+import { Route } from 'react-router-dom';
+import { SignIn, SignUp } from '../../modules/index';
 
 export const AuthPage = () => {
+  
   return (
     <>
-      <Route exact path="/auth/signin" component={Auth}/>
-      <Route path="/auth/signup" exact component={Register}/>
-    </>
+      <Route path="/auth/signin" exact component={SignIn}/>
+      <Route path="/auth/signup" exact component={SignUp}/>
+    </> 
   )
 }

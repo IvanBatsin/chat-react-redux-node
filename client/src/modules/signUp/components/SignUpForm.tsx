@@ -3,14 +3,21 @@ import { Button } from '../../../components';
 import { RuleObject } from 'antd/lib/form';
 import { Form, Input, notification } from 'antd';
 import { Link } from 'react-router-dom';
-import { IRegisterForm } from '../../../interfaces/index';
 import { userApi } from '../../../API/userApi';
 import { setUser } from '../../../store/ducks/user/actionCreators';
 import { useDispatch } from 'react-redux';
 import { InputComponent } from '../../../components/formField/Input';
 
-export const RegisterForm: React.FC = (): React.ReactElement => {
-  const [data, setData] = React.useState<IRegisterForm>({
+export interface ISignUpForm {
+  userName: string,
+  fullName: string,
+  email: string,
+  password: string,
+  password2: string
+}
+
+export const SignUpForm: React.FC = (): React.ReactElement => {
+  const [data, setData] = React.useState<ISignUpForm>({
     userName: '',
     email: '', 
     fullName: '',
@@ -46,7 +53,7 @@ export const RegisterForm: React.FC = (): React.ReactElement => {
 
   const handleSubmit = async (): Promise<void> => {
     setBtnDisable(true);
-    const res = await userApi.register(data);
+    const res = await userApi.signUp(data);
 
     if (res.status === 'success' && typeof res.data !== 'string') {
       dispatch(setUser(res.data));
@@ -60,6 +67,7 @@ export const RegisterForm: React.FC = (): React.ReactElement => {
       });
     }
   }
+  
   return (
     <Form
       {...layout}

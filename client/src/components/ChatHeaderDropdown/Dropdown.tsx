@@ -1,20 +1,13 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { setUserToInitial } from '../../store/ducks/user/actionCreators';
-import { useHistory } from 'react-router-dom';
-import { setMessagesToInitial } from '../../store/ducks/messages/actionCreators';
-import { setDialogsToInitial } from '../../store/ducks/dialogs/actionCreators';
+import { setUser } from '../../store/ducks/user/actionCreators';
 
 export const Dropdown: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
-  const router = useHistory();
 
   const handleExit = (): void => {
-    router.push('/auth/singin');
-    localStorage.removeItem('token');
-    dispatch(setMessagesToInitial());
-    dispatch(setDialogsToInitial());
-    dispatch(setUserToInitial());
+    window.localStorage.removeItem('token');
+    dispatch(setUser(undefined));
   }
 
   return (

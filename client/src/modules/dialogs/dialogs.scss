@@ -2,7 +2,7 @@
 
 .dialogs {
   margin-top: 20px;
-  height: 400px;
+  height: calc(100% - 100px);
   overflow: auto;
 
   &_item {

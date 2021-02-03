@@ -24,7 +24,7 @@ export const userReducer = produce((draft: Draft<UserState>, action: UserAction)
       break;
     }
 
-    case UserActionTypes.SER_PARTNER: {
+    case UserActionTypes.SET_PARTNER: {
       draft.partner = action.payload;
       break;
     }

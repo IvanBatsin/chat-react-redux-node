@@ -10,17 +10,17 @@ export const Home: React.FC = (): React.ReactElement => {
   const router = useHistory();
   const user = useSelector(selectUserStateData);
 
-  React.useEffect(() => {
-    if (!user?.confirmed || !user) {
-      router.push('/auth/signin');
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (!user?.confirmed || !user) {
+  //     router.push('/auth/signin');
+  //   }
+  // }, []);
 
-  React.useEffect(() => {
-    if (!user?.confirmed || !user) {
-      router.push('/auth/signin');
-    }
-  }, [user]);
+  // React.useEffect(() => {
+  //   if (!user?.confirmed || !user) {
+  //     router.push('/auth/signin');
+  //   }
+  // }, [user]);
   return (
     <section className="home">
       <SideBar></SideBar>

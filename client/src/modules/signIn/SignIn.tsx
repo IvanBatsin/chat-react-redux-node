@@ -1,9 +1,9 @@
 import React from 'react';
-import './auth.scss';
+import './signIn.scss';
 import { Button, WhiteBlock } from '../../components';
 import { Form, Input, notification } from 'antd';
 import { Link } from 'react-router-dom';
-import { userApi, IAuthPayload } from '../../API/userApi';
+import { userApi } from '../../API/userApi';
 import { useHistory } from 'react-router-dom';
 import { setUser } from '../../store/ducks/user/actionCreators';
 import { useDispatch } from 'react-redux';
@@ -11,9 +11,14 @@ import { InputComponent } from '../../components/formField/Input';
 import { socket } from '../../core/socket';
 import { colorPicker } from '../../helpers/colorPicker';
 
-export const Auth: React.FC = (): React.ReactElement => {
+export interface ISignInPayload {
+  email: string,
+  password: string
+}
+
+export const SignIn: React.FC = (): React.ReactElement => {
   const [btnDisable, setBtnDisable] = React.useState<boolean>(false);
-  const [data, setData] = React.useState<IAuthPayload>({
+  const [data, setData] = React.useState<ISignInPayload>({
     email: '',
     password: ''
   });
@@ -36,7 +41,7 @@ export const Auth: React.FC = (): React.ReactElement => {
   const handleFormSubmit = async (): Promise<void> => {
     setBtnDisable(true);
 
-    const res = await userApi.login(data);
+    const res = await userApi.signIn(data);
     if (res.status === 'success' && typeof res.data !== 'string') {
       localStorage.setItem('token', res.token!);
       res.data.bgColor = colorPicker();

@@ -1,6 +1,6 @@
-import { Register } from './register/Register';
-import { Auth } from './auth/Auth';
+import { SignUp } from './signUp/SignUp';
+import { SignIn } from './signIn/SignIn';
 import { Chat } from './chat/Chat';
 import { Dialogs } from './dialogs/Dialogs';
 
-export { Register, Auth, Chat, Dialogs }
+export { SignUp, SignIn, Chat, Dialogs }

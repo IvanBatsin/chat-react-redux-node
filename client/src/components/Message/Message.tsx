@@ -1,6 +1,6 @@
 import React from 'react';
 import './message.scss';
-import { IUser, IAttachments } from '../../interfaces/';
+import { IUser, IAttachments, IMessage } from '../../interfaces/';
 import format from 'date-fns/format';
 import { ru } from 'date-fns/locale';
 import classNames from 'classnames';
@@ -12,21 +12,16 @@ import Check from '../../img/check.svg';
 import Send from '../../img/send.svg';
 
 interface MessageProps {
-  text: string,
-  createdAt: string,
-  user: IUser,
-  itsMe: boolean,
-  unread: boolean,
-  attachments: IAttachments[],
-  isTyping: boolean
-  audio?: string
+  message: IMessage,
+  isTyping: boolean,
+  itsMe: boolean
 }
 
-const Message: React.FC<MessageProps> = ({text, user, createdAt, itsMe, unread, attachments, isTyping, audio}: MessageProps): React.ReactElement => {
+const Message: React.FC<MessageProps> = ({message, isTyping, itsMe}: MessageProps) => {
   return (
     <div className={classNames('message', {'message_me': itsMe, "message_typing": isTyping})}>
       <div className="message_avatar">
-       <AvatarMessage user={user}/>
+       <AvatarMessage user={message.author}/>
       </div>
       {isTyping ? 
         <div className="message_content">
@@ -40,19 +35,19 @@ const Message: React.FC<MessageProps> = ({text, user, createdAt, itsMe, unread, 
       <>
         <div className="message_content">
           <div>
-            {audio ? 
-              <AudioMessage audio={audio}/>
+            {message.audio ? 
+              <AudioMessage audio={message.audio}/>
             :
               <>
-                {text ? 
+                {message.text ? 
                   <div className="message_bubble">
-                    <p className="message_text">{text}</p> 
+                    <p className="message_text">{message.text}</p> 
                   </div>
                 : null
                 }
 
                 <div className="message_attachments">
-                  {attachments.length > 0 && attachments.map((item, index) => {
+                  {message.attachments!.length > 0 && message.attachments!.map((item, index) => {
                     return (
                       <div key={`${item.fileName}${index}`} className="message_attachments_item">
                         <a href={item.url} target="_blank" rel="noreferrer">
@@ -65,11 +60,11 @@ const Message: React.FC<MessageProps> = ({text, user, createdAt, itsMe, unread, 
               </>
             }
 
-          {createdAt && <span className="message_date">{format(new Date(createdAt), 'H:mm MMMM yyy', {locale: ru})}</span>}
+          {message.createdAt && <span className="message_date">{format(new Date(message.createdAt), 'H:mm MMMM yyy', {locale: ru})}</span>}
           </div>
         </div>
         <div className="message_check">
-          <img src={!unread ? Check : Send} alt="Check Icon"></img>
+          <img src={!message.unread ? Check : Send} alt="Check Icon"></img>
         </div>
       </>
     }

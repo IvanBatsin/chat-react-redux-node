@@ -28,6 +28,7 @@ export class UserController implements IController {
     this.router.get(`${this.path}/verify`, this.verify);
     this.router.post(`${this.path}/signin`, passport.authenticate('local'), updateLastSeen, this.afterLogin);
     this.router.get(`${this.path}/me`, passport.authenticate('jwt', {session: false}), updateLastSeen, this.getMe);
+    this.router.delete(this.path, passport.authenticate('jwt', {session: false}), this.delete);
   }
 
   private create = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction>  => {
@@ -115,7 +116,6 @@ export class UserController implements IController {
   private getMe = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> => {
     try {
       if (req.user) {
-        console.log(req.user);
         res.json({
           status: 'success',
           data: req.user
@@ -123,6 +123,16 @@ export class UserController implements IController {
       } else {
         return next(new HttpExeption(404, 'User not found'));
       }
+    } catch (error) {
+      console.log(error);
+      return next(new HttpExeption());
+    }
+  }
+
+  private delete = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> => {
+    try {
+      await UserModel.findByIdAndDelete(req.user);
+      res.status(202).send();
     } catch (error) {
       console.log(error);
       return next(new HttpExeption());

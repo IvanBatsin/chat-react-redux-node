@@ -6,6 +6,7 @@
   width: 100%;
   border: 1px solid $grey;
   border-radius: 10px;
+  height: 80px;
 
   &_block {
     display: flex;
@@ -15,6 +16,7 @@
     background-color: white;
     padding: 5px;
     border-radius: 10px;
+    height: 100%;
 
     &_smile {
       font-size: 18px;
