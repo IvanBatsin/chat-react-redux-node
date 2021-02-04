@@ -3,18 +3,14 @@ import './signIn.scss';
 import { Button, WhiteBlock } from '../../components';
 import { Form, Input, notification } from 'antd';
 import { Link } from 'react-router-dom';
-import { userApi } from '../../API/userApi';
-import { useHistory } from 'react-router-dom';
-import { setUser } from '../../store/ducks/user/actionCreators';
-import { useDispatch } from 'react-redux';
+import { userSignIn } from '../../store/ducks/user/actionCreators';
+import { useDispatch, useSelector } from 'react-redux';
 import { InputComponent } from '../../components/formField/Input';
 import { socket } from '../../core/socket';
 import { colorPicker } from '../../helpers/colorPicker';
-
-export interface ISignInPayload {
-  email: string,
-  password: string
-}
+import { ISignInPayload } from '../../interfaces/forms';
+import { selectUserLoadingState } from '../../store/ducks/user/selector';
+import { LoadingState } from '../../interfaces/loadingState';
 
 export const SignIn: React.FC = (): React.ReactElement => {
   const [btnDisable, setBtnDisable] = React.useState<boolean>(false);
@@ -23,8 +19,8 @@ export const SignIn: React.FC = (): React.ReactElement => {
     password: ''
   });
 
-  const router = useHistory();
   const dispatch = useDispatch();
+  const loadingState = useSelector(selectUserLoadingState);
 
   const layout = {
     labelCol: { span: 6 },
@@ -40,23 +36,20 @@ export const SignIn: React.FC = (): React.ReactElement => {
 
   const handleFormSubmit = async (): Promise<void> => {
     setBtnDisable(true);
-
-    const res = await userApi.signIn(data);
-    if (res.status === 'success' && typeof res.data !== 'string') {
-      localStorage.setItem('token', res.token!);
-      res.data.bgColor = colorPicker();
-      dispatch(setUser(res.data));
-      router.push('/');
-    }
-
-    if (res.status === 'error') {
-      setBtnDisable(false);
-      notification.error({
-        message: res.status.toUpperCase(),
-        description: res.data.toString()
-      });
-    }
+    dispatch(userSignIn(data));
   }
+
+  // React.useEffect(() => {
+  //   if (loadingState === LoadingState.ERROR) {
+  //     notification.info({
+  //       message: 'Ошибка при входе'
+  //     });
+  //   }
+  // }, [loadingState])
+
+  // React.useEffect(() => {
+  //   fetch('http://localhost')
+  // }, []);
 
   return (
     <section className="auth">

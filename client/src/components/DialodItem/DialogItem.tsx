@@ -16,10 +16,11 @@ interface IDialogProps {
   selectDialog: (dialog: string, partner: IUser) => void
 }
 
-const DialogItem: React.FC<IDialogProps> = ({dialog: {author, partner, createdAt, _id, lastMessage}, selectDialog, currentUser}: IDialogProps): React.ReactElement => {
+const DialogItem: React.FC<IDialogProps> = ({dialog: {author, partner, createdAt, _id, lastMessage}, selectDialog, currentUser}: IDialogProps) => {
+  if (!currentUser) return null;
 
   const dialogPartner = getPartner(currentUser, author, partner);
-
+ 
   return (
     <div className="dialogs_item" onClick={() => selectDialog(_id, dialogPartner)}>
       <AvatarCheck 

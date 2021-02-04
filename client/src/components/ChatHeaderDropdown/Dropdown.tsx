@@ -1,13 +1,17 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../../store/ducks/user/actionCreators';
+import { setDialogsData } from '../../store/ducks/dialogs/actionCreators';
+import { setMessagesToInitial } from '../../store/ducks/messages/actionCreators';
+import { setUserExit } from '../../store/ducks/user/actionCreators';
 
 export const Dropdown: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
 
   const handleExit = (): void => {
     window.localStorage.removeItem('token');
-    dispatch(setUser(undefined));
+    dispatch(setDialogsData(undefined));
+    dispatch(setMessagesToInitial());
+    dispatch(setUserExit());
   }
 
   return (

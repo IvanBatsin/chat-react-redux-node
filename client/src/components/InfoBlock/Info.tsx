@@ -2,7 +2,7 @@ import React from 'react';
 import './info.scss';
 import Button from 'antd/lib/button/button';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../../store/ducks/user/actionCreators';
+import { setUserData } from '../../store/ducks/user/actionCreators';
 import WhiteBlock from '../WhiteBlock/WhiteBlock';
 import { Typography } from 'antd';
 const { Title } = Typography
@@ -16,7 +16,7 @@ export const Info: React.FC<InfoProps> = ({message, title}: InfoProps) => {
   const dispatch = useDispatch();
   
   const handleReSignUp = async () => {
-    dispatch(setUser(undefined));
+    dispatch(setUserData(undefined));
   }
 
   return (

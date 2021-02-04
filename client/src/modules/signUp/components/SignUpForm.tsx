@@ -4,20 +4,13 @@ import { RuleObject } from 'antd/lib/form';
 import { Form, Input, notification } from 'antd';
 import { Link } from 'react-router-dom';
 import { userApi } from '../../../API/userApi';
-import { setUser } from '../../../store/ducks/user/actionCreators';
+import { setUserData } from '../../../store/ducks/user/actionCreators';
 import { useDispatch } from 'react-redux';
 import { InputComponent } from '../../../components/formField/Input';
-
-export interface ISignUpForm {
-  userName: string,
-  fullName: string,
-  email: string,
-  password: string,
-  password2: string
-}
+import { ISignUpPayload } from '../../../interfaces/forms';
 
 export const SignUpForm: React.FC = (): React.ReactElement => {
-  const [data, setData] = React.useState<ISignUpForm>({
+  const [data, setData] = React.useState<ISignUpPayload>({
     userName: '',
     email: '', 
     fullName: '',
@@ -56,7 +49,7 @@ export const SignUpForm: React.FC = (): React.ReactElement => {
     const res = await userApi.signUp(data);
 
     if (res.status === 'success' && typeof res.data !== 'string') {
-      dispatch(setUser(res.data));
+      dispatch(setUserData(res.data));
     }
 
     if (res.status === 'error') {

@@ -18,9 +18,9 @@ export class DialogController implements IController {
 
   constructor(io: Server){
     io.on('connection', (socket: Socket) => {
-      this.initializeRouter();
       this.socket = socket;
     });
+    this.initializeRouter();
   }
 
 
@@ -87,7 +87,7 @@ export class DialogController implements IController {
         data: {dialog, message}
       });
       
-      this.socket.emit(SocketActions.DIALOG_CREATED, {dialog});
+      // this.socket.emit(SocketActions.DIALOG_CREATED, {dialog});
     } catch (error) {
       console.log(error);
       next(new HttpExeption(500, ""));

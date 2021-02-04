@@ -25,6 +25,7 @@ $RECYCLE.BIN/
 
 client/node_modules
 client/.eslintcache
+client/build
 backend/node_modules
 backend/.env
 backend/req.http

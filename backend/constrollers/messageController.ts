@@ -39,7 +39,7 @@ export class MessageComtroller implements IController {
 
       const dialog = req.query.dialog;
 
-      const messages = await MessageModel.find({dialog}).populate('dialog').exec();
+      const messages = await MessageModel.find({dialog}).populate('author').populate('dialog').exec();
 
       res.json({
         status: 'success',

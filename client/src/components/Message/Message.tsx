@@ -47,7 +47,7 @@ const Message: React.FC<MessageProps> = ({message, isTyping, itsMe}: MessageProp
                 }
 
                 <div className="message_attachments">
-                  {message.attachments!.length > 0 && message.attachments!.map((item, index) => {
+                  {message.attachments && message.attachments!.length > 0 && message.attachments!.map((item, index) => {
                     return (
                       <div key={`${item.fileName}${index}`} className="message_attachments_item">
                         <a href={item.url} target="_blank" rel="noreferrer">

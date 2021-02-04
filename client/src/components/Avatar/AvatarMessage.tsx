@@ -6,6 +6,7 @@ interface IAvatarMessageProps {
 }
 
 export const AvatarMessage: React.FC<IAvatarMessageProps> = ({user}: IAvatarMessageProps): React.ReactElement => {
+  console.log(user);
   if (!user.avatarUrl) {
     const letter = user.fullName[0].toUpperCase();
     return <div className="message_avatar_empty" style={{backgroundColor: user.bgColor}}>{letter}</div>

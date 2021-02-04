@@ -1,4 +1,5 @@
 import { Action } from 'redux';
+import { ISignInPayload, ISignUpPayload } from '../../../interfaces/forms';
 import { LoadingState } from '../../../interfaces/loadingState';
 import { IUser } from '../../../interfaces/user';
 
@@ -8,11 +9,11 @@ export enum UserActionTypes {
   USER_EXIT = 'user/USER_EXIT',
   SET_USER_LOADING_STATE = 'user/SET_USER_LOADING_STATE',
   GET_ME = 'user/GET_ME',
-  USER_RESIGNUP = 'user/USER_RESIGNUP'
+  USER_SIGNIN = 'user/USER_SIGNIN'
 }
 
 // Interfaces
-export interface ISetUser extends Action<UserActionTypes> {
+export interface ISetUserData extends Action<UserActionTypes> {
   type: UserActionTypes.SET_USER,
   payload: IUser | undefined
 }
@@ -20,7 +21,7 @@ export interface ISetPartner extends Action<UserActionTypes> {
   type: UserActionTypes.SET_PARTNER,
   payload: IUser | undefined
 }
-export interface ISetUserToInitial extends Action<UserActionTypes> {
+export interface IUserExit extends Action<UserActionTypes> {
   type: UserActionTypes.USER_EXIT
 }
 export interface ISetUserLoadingState extends Action<UserActionTypes> {
@@ -30,10 +31,14 @@ export interface ISetUserLoadingState extends Action<UserActionTypes> {
 export interface IUserGetMe extends Action<UserActionTypes> {
   type: UserActionTypes.GET_ME
 }
+export interface IUserSignIn extends Action<UserActionTypes> {
+  type: UserActionTypes.USER_SIGNIN,
+  payload: ISignInPayload
+}
 
 
 // Actions
-export const setUser = (payload: IUser | undefined): ISetUser => ({
+export const setUserData = (payload: IUser | undefined): ISetUserData => ({
   type: UserActionTypes.SET_USER,
   payload
 });
@@ -41,7 +46,7 @@ export const setPartner = (payload: IUser | undefined): ISetPartner => ({
   type: UserActionTypes.SET_PARTNER,
   payload
 });
-export const setUserToInitial = (): ISetUserToInitial => ({
+export const setUserExit = (): IUserExit => ({
   type: UserActionTypes.USER_EXIT
 });
 export const setUserLoadingState = (payload: LoadingState): ISetUserLoadingState => ({
@@ -50,6 +55,10 @@ export const setUserLoadingState = (payload: LoadingState): ISetUserLoadingState
 });
 export const getUserMe = (): IUserGetMe => ({
   type: UserActionTypes.GET_ME
-})
+});
+export const userSignIn = (payload: ISignInPayload): IUserSignIn => ({
+  type: UserActionTypes.USER_SIGNIN,
+  payload
+});
 
-export type UserAction = ISetUser | ISetPartner | ISetUserToInitial | ISetUserLoadingState | IUserGetMe;
+export type UserAction = ISetUserData | ISetPartner | IUserExit | ISetUserLoadingState | IUserGetMe | IUserSignIn;

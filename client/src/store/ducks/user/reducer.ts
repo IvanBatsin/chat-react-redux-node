@@ -32,7 +32,7 @@ export const userReducer = produce((draft: Draft<UserState>, action: UserAction)
     case UserActionTypes.USER_EXIT: {
       draft.user = undefined;
       draft.partner = undefined;
-      draft.loadingState = LoadingState.NEVER;
+      draft.loadingState = LoadingState.LOADED;
       break;
     }
 
