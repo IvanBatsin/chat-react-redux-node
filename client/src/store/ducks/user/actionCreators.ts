@@ -9,7 +9,8 @@ export enum UserActionTypes {
   USER_EXIT = 'user/USER_EXIT',
   SET_USER_LOADING_STATE = 'user/SET_USER_LOADING_STATE',
   GET_ME = 'user/GET_ME',
-  USER_SIGNIN = 'user/USER_SIGNIN'
+  USER_SIGNIN = 'user/USER_SIGNIN',
+  USER_SIGNUP = 'user/USER_SIGN_UP'
 }
 
 // Interfaces
@@ -34,6 +35,10 @@ export interface IUserGetMe extends Action<UserActionTypes> {
 export interface IUserSignIn extends Action<UserActionTypes> {
   type: UserActionTypes.USER_SIGNIN,
   payload: ISignInPayload
+}
+export interface IUserSignUp extends Action<UserActionTypes> {
+  type: UserActionTypes.USER_SIGNUP,
+  payload: ISignUpPayload
 }
 
 
@@ -60,5 +65,9 @@ export const userSignIn = (payload: ISignInPayload): IUserSignIn => ({
   type: UserActionTypes.USER_SIGNIN,
   payload
 });
+export const userSignUp = (payload: ISignUpPayload): IUserSignUp => ({
+  type: UserActionTypes.USER_SIGNUP,
+  payload
+});
 
-export type UserAction = ISetUserData | ISetPartner | IUserExit | ISetUserLoadingState | IUserGetMe | IUserSignIn;
+export type UserAction = ISetUserData | ISetPartner | IUserExit | ISetUserLoadingState | IUserGetMe | IUserSignIn | IUserSignUp;

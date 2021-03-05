@@ -4,7 +4,7 @@ import { RuleObject } from 'antd/lib/form';
 import { Form, Input, notification } from 'antd';
 import { Link } from 'react-router-dom';
 import { userApi } from '../../../API/userApi';
-import { setUserData } from '../../../store/ducks/user/actionCreators';
+import { setUserData, userSignUp } from '../../../store/ducks/user/actionCreators';
 import { useDispatch } from 'react-redux';
 import { InputComponent } from '../../../components/formField/Input';
 import { ISignUpPayload } from '../../../interfaces/forms';
@@ -45,20 +45,23 @@ export const SignUpForm: React.FC = (): React.ReactElement => {
   }
 
   const handleSubmit = async (): Promise<void> => {
+    // event.preventDefault();
     setBtnDisable(true);
-    const res = await userApi.signUp(data);
+    console.log('signUp - ', data);
+    dispatch(userSignUp(data));
+    // const res = await userApi.signUp(data);
 
-    if (res.status === 'success' && typeof res.data !== 'string') {
-      dispatch(setUserData(res.data));
-    }
+    // if (res.status === 'success' && typeof res.data !== 'string') {
+    //   dispatch(setUserData(res.data));
+    // }
 
-    if (res.status === 'error') {
-      setBtnDisable(false);
-      notification.error({
-        message: res.status.toUpperCase(),
-        description: res.data.toString()
-      });
-    }
+    // if (res.status === 'error') {
+    //   setBtnDisable(false);
+    //   notification.error({
+    //     message: res.status.toUpperCase(),
+    //     description: res.data.toString()
+    //   });
+    // }
   }
   
   return (

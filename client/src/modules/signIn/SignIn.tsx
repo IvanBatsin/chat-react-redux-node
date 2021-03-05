@@ -1,16 +1,13 @@
 import React from 'react';
 import './signIn.scss';
 import { Button, WhiteBlock } from '../../components';
-import { Form, Input, notification } from 'antd';
+import { Form, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { userSignIn } from '../../store/ducks/user/actionCreators';
 import { useDispatch, useSelector } from 'react-redux';
 import { InputComponent } from '../../components/formField/Input';
-import { socket } from '../../core/socket';
-import { colorPicker } from '../../helpers/colorPicker';
 import { ISignInPayload } from '../../interfaces/forms';
 import { selectUserLoadingState } from '../../store/ducks/user/selector';
-import { LoadingState } from '../../interfaces/loadingState';
 
 export const SignIn: React.FC = (): React.ReactElement => {
   const [btnDisable, setBtnDisable] = React.useState<boolean>(false);
@@ -20,7 +17,6 @@ export const SignIn: React.FC = (): React.ReactElement => {
   });
 
   const dispatch = useDispatch();
-  const loadingState = useSelector(selectUserLoadingState);
 
   const layout = {
     labelCol: { span: 6 },
@@ -38,18 +34,6 @@ export const SignIn: React.FC = (): React.ReactElement => {
     setBtnDisable(true);
     dispatch(userSignIn(data));
   }
-
-  // React.useEffect(() => {
-  //   if (loadingState === LoadingState.ERROR) {
-  //     notification.info({
-  //       message: 'Ошибка при входе'
-  //     });
-  //   }
-  // }, [loadingState])
-
-  // React.useEffect(() => {
-  //   fetch('http://localhost')
-  // }, []);
 
   return (
     <section className="auth">
