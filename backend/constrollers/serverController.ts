@@ -1,5 +1,5 @@
-import express, { Application } from "express";
 import { IController } from "../interface/controller";
+import express, { Application } from "express";
 import { passport } from '../core/passport';
 import { errorHandler } from '../middleware/errorHandler';
 import http from 'http';

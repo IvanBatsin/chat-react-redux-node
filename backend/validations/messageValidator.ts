@@ -3,7 +3,7 @@ import { checkIdType } from '../utils/checkIdType';
 
 export const messageValidatorIndex = [
   query('dialog', 'Не указан dialog')
-    .notEmpty().withMessage('Не указан dialog')
+    .isString().withMessage('Не верный формат dialog')
     .custom((value, {req}) => {
       if (!checkIdType(value)) {
         throw new Error('Не верный формат dialog');

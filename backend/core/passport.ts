@@ -13,7 +13,6 @@ passport.use(new LocalStrategy({
     try {
       const user = await UserModel.findOne({email: username}).exec();
 
-      // if (!user || !user.confirmed) return done(null, false);
       if (!user) return done(null, false);
 
       const confirmPassword = await bcrypt.compare(password, user.toObject().password);

@@ -1,15 +1,16 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { LoadingState } from '../../../interfaces/loadingState';
-import { dialogsApi, ServerDialogResponse } from '../../../API/dialogApi';
+import { dialogsApi } from '../../../API/dialogApi';
 import { setDialogsLoadingStatus, setDialogsData, DialogsActionTypes, IFetchDialogsData } from './actionCreators';
 import { colorPicker } from '../../../helpers/colorPicker';
 import { IDialog } from '../../../interfaces/dialog';
+import { ServerResponse } from '../../../interfaces/forms';
  
 
 function* fetchDialogs({payload}: IFetchDialogsData){
   try {
     yield put(setDialogsLoadingStatus(LoadingState.LOADING));
-    const data: ServerDialogResponse<IDialog[]> = yield call(dialogsApi.fetchAllDialogs, payload);
+    const data: ServerResponse<IDialog[]> = yield call(dialogsApi.fetchAllDialogs, payload);
     
     if (data.data.length) {
       data.data.forEach(dialog => {

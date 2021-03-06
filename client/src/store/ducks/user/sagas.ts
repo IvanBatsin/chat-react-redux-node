@@ -1,6 +1,7 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { ISignInUser, ServerUserResponse, userApi } from '../../../API/userApi';
+import { userApi } from '../../../API/userApi';
 import { IUser } from '../../../interfaces';
+import { ServerResponse, UserSignIn } from '../../../interfaces/forms';
 import { LoadingState } from '../../../interfaces/loadingState';
 import { setUserData, setUserLoadingState, UserActionTypes, IUserSignIn, IUserSignUp } from './actionCreators';
 
@@ -17,9 +18,9 @@ function* fetchGetMe() {
 function* fetchSignIn({payload}: IUserSignIn) {
   try {
     yield put(setUserLoadingState(LoadingState.LOADING));
-    const data: ISignInUser = yield call(userApi.signIn, payload);
-    window.localStorage.setItem('token', JSON.stringify(data.token));
-    yield put(setUserData(data.data));
+    const data: ServerResponse<UserSignIn> = yield call(userApi.signIn, payload);
+    window.localStorage.setItem('token', JSON.stringify(data.data.token));
+    yield put(setUserData(data.data.user));
   } catch (error) {
     yield put(setUserLoadingState(LoadingState.ERROR));
   }
@@ -28,7 +29,7 @@ function* fetchSignIn({payload}: IUserSignIn) {
 function* fetchSignUp({payload}: IUserSignUp) {
   try {
     yield put(setUserLoadingState(LoadingState.LOADING));
-    const data: ServerUserResponse<IUser> = yield call(userApi.signUp, payload);
+    const data: ServerResponse<IUser> = yield call(userApi.signUp, payload);
     console.log('saga - ', data);
     yield put(setUserData(data.data));
   } catch (error) {

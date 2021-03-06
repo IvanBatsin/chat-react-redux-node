@@ -14,9 +14,11 @@ export const dialogValidatorIndex = [
 
 export const dialogValidatorCreate = [
   body('text')
+    .trim()
     .isString().withMessage('Не верный формат сообщения'),
 
   body('author', 'Не указан author')
+    .isString().withMessage('Не верный тип author')
     .notEmpty().withMessage('Не указан author')
     .custom((value, {req}) => {
       if (!checkIdType(value)) {
