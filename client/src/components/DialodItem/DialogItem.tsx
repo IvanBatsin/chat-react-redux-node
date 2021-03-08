@@ -13,7 +13,7 @@ import { isOnline } from '../../helpers/isOnline';
 interface IDialogProps {
   dialog: IDialog,
   currentUser: IUser,
-  selectDialog: (dialog: string, partner: IUser) => void
+  selectDialog: (dialogId: string, partner: IUser) => void
 }
 
 const DialogItem: React.FC<IDialogProps> = ({dialog: {author, partner, createdAt, _id, lastMessage}, selectDialog, currentUser}: IDialogProps) => {

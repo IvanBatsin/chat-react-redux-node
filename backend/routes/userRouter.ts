@@ -11,7 +11,6 @@ userRouter.get('/verify', userController.verify);
 userRouter.get('/me', passport.authenticate('jwt', {session: false}), updateLastSeen, userController.getMe);
 userRouter.post('/signup', userSignUpValidation, checkValidation, userController.create);
 userRouter.post('/signin', userSignInValidation, checkValidation, passport.authenticate('local'), updateLastSeen, userController.afterLogin);
-// userRouter.post('/signin', userSignInValidation, checkValidation, passport.authenticate('local'), updateLastSeen, userController.afterLogin);
 userRouter.delete('/', passport.authenticate('jwt', {session: false}), userController.delete);
 
 export { userRouter }

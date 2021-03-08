@@ -45,23 +45,8 @@ export const SignUpForm: React.FC = (): React.ReactElement => {
   }
 
   const handleSubmit = async (): Promise<void> => {
-    // event.preventDefault();
     setBtnDisable(true);
-    console.log('signUp - ', data);
     dispatch(userSignUp(data));
-    // const res = await userApi.signUp(data);
-
-    // if (res.status === 'success' && typeof res.data !== 'string') {
-    //   dispatch(setUserData(res.data));
-    // }
-
-    // if (res.status === 'error') {
-    //   setBtnDisable(false);
-    //   notification.error({
-    //     message: res.status.toUpperCase(),
-    //     description: res.data.toString()
-    //   });
-    // }
   }
   
   return (

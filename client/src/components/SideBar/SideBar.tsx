@@ -2,13 +2,16 @@ import React from 'react';
 import './sidebar.scss';
 import { Dialogs } from '../../modules/';
 import { Input } from 'antd';
-import { SearchOutlined } from '@ant-design/icons'
+import { SearchOutlined } from '@ant-design/icons';
+
+let count = 0;
 
 const SideBar: React.FC = (): React.ReactElement => {
   const [searchValue, setSearchValue] = React.useState<string>('');
+  console.log('sidebar render - ', ++count);
 
-  const handleSearchValue = (value: string) => {
-    setSearchValue(value);
+  const handleSearchValue = (event: React.FormEvent<HTMLInputElement>): void => {
+    setSearchValue(event.currentTarget.value);
   }
   return (
     <div className="sidebar">
@@ -18,7 +21,7 @@ const SideBar: React.FC = (): React.ReactElement => {
       </div>
       <div className="sidebar_search">
         <Input 
-          onChange={event => handleSearchValue(event.currentTarget.value)} 
+          onChange={handleSearchValue} 
           defaultValue={searchValue} 
           className="search_input" 
           bordered={false} 

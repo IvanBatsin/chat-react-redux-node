@@ -212,16 +212,6 @@ class UserController {
   afterLogin = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> => {
     try {
       if (req.user) {
-        // res.json({
-        //   status: 'success',
-        //   data: {
-        //     ...req.user,
-        //     password: undefined,
-        //     confirm_hash: undefined,
-        //   },
-        //   token: jwt.sign({data: req.user}, process.env.SECRET_KEY || 'secret key', {expiresIn: "30 d"})
-        // });
-
         const token = jwt.sign({data: req.user}, process.env.SECRET_KEY || 'secret key', {expiresIn: "30 d"});
 
         res.json({

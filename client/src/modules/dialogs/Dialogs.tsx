@@ -20,11 +20,15 @@ interface IDialogsProps {
   search: string
 }
 
+let count = 0;
+
 export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React.ReactElement => {
   const dispatch = useDispatch();
-  const fetchedDialogs = useSelector(selectDialogsData);
+  const allDialogs = useSelector(selectDialogsData);
   const [dialogsState, setDialogsState] = React.useState<IDialog[]>([]);
-  const [currentDialog, setCurrentDialog] = React.useState<string>('');
+  const [currentDialogId, setCurrentDialogId] = React.useState<string>('');
+
+  console.log('dialogs render - ', ++count);
   
   // Selectors
   const isLoading = useSelector(selectDialogsStatusIsLoading);
@@ -32,32 +36,56 @@ export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React
   const isError = useSelector(selectDialogsStatusIsError);
   const user = useSelector(selectUserStateData);
 
-  const handleFetchDialogs = (): void => {
+  const handleFetchAllDialogs = (): void => {
     if (user) {
       dispatch(fetchDialogs(user?._id));
     }
   }
 
-  const searchDialogs = (): void => {
-    const searchedDialogs = fetchedDialogs!.filter(dialog => {
+  const handleSearchDialogs = (): void => {
+    const searchedDialogs = allDialogs!.filter(dialog => {
       const partner = getPartner(user!, dialog.author, dialog.partner);
       if (partner.fullName.toUpperCase().indexOf(search.toUpperCase()) >= 0){
         return dialog;
       }
     });
-    setDialogsState(searchedDialogs);
+    setDialogsState(searchedDialogs!);
   }
 
-  const handleSelectDialog = React.useCallback((dialog: string, partner: IUser): void => {
-    if (dialog !== currentDialog) {
-      dispatch(fetchMessagesData(dialog));
+  const handleSelectDialog = React.useCallback((dialogId: string, partner: IUser): void => {
+    if (dialogId !== currentDialogId) {
+      dispatch(fetchMessagesData(dialogId));
       dispatch(setPartner(partner));
-      setCurrentDialog(dialog);
+      setCurrentDialogId(dialogId);
     }
-  }, [dispatch, currentDialog]);
+  }, [dispatch, currentDialogId]);
 
+
+  // Initial set dialogs
   React.useEffect(() => {
-    handleFetchDialogs();
+    if (allDialogs && isLoaded) {
+      console.log('SET INITIALS DIALOGS');
+      setDialogsState(allDialogs);
+    }
+  }, [allDialogs]);
+
+
+  // Check search string change
+  React.useEffect(() => {
+    if (user && isLoaded) {
+      console.log('SEARCH DIALOGS');
+      if (search.length) {
+        handleSearchDialogs();
+      } else {
+        setDialogsState(allDialogs || []);
+      }
+    }
+  }, [search]);
+
+  // Fetch all dialogs
+  React.useEffect(() => {
+    console.log('FETCH DIALOGS');
+    handleFetchAllDialogs();
 
     // socket.on(SocketActions.DIALOG_CREATED, (obj: any) => {
     //   console.log(obj);
@@ -65,25 +93,9 @@ export const Dialogs: React.FC<IDialogsProps> = ({search}: IDialogsProps): React
     // });
   }, []);
 
-  React.useEffect(() => {
-    if (fetchedDialogs && fetchedDialogs!.length && !dialogsState.length) {
-      setDialogsState(fetchedDialogs);
-    }
-  }, [fetchedDialogs]);
-
-  React.useEffect(() => {
-    if (user) {
-      if (search.length > 0) {
-        searchDialogs();
-      } else if (search.length === 0) {
-        setDialogsState(fetchedDialogs || []);
-      }
-    }
-  }, [search]);
-
   return (
     <div className="dialogs">
-      {isError && <DialogsError fetchDialogs={handleFetchDialogs}/>}
+      {isError && <DialogsError fetchDialogs={handleFetchAllDialogs}/>}
       {isLoading && 
         <> 
           <DialogItemLoader />

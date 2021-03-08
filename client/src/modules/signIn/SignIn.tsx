@@ -4,10 +4,9 @@ import { Button, WhiteBlock } from '../../components';
 import { Form, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { userSignIn } from '../../store/ducks/user/actionCreators';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { InputComponent } from '../../components/formField/Input';
 import { ISignInPayload } from '../../interfaces/forms';
-import { selectUserLoadingState } from '../../store/ducks/user/selector';
 
 export const SignIn: React.FC = (): React.ReactElement => {
   const [btnDisable, setBtnDisable] = React.useState<boolean>(false);

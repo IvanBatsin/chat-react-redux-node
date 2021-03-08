@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import path from 'path';
-dotenv.config({path: path.join(__dirname, '.env')});
+dotenv.config({path: path.join(__dirname, './.env')});
 import express, { Application } from 'express';
 import http from 'http';
 import { Socket, Server } from 'socket.io';

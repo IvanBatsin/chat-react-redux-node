@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { dialogController } from '../constrollers/dialogController';
+import { dialogController } from '../constrollers/dialogCOntroller';
 import { passport } from '../core/passport';
 import { checkValidation } from '../middleware/checkValidation';
 import { updateLastSeen } from '../middleware/last_seen';

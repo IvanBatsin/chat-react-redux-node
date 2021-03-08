@@ -30,7 +30,6 @@ function* fetchSignUp({payload}: IUserSignUp) {
   try {
     yield put(setUserLoadingState(LoadingState.LOADING));
     const data: ServerResponse<IUser> = yield call(userApi.signUp, payload);
-    console.log('saga - ', data);
     yield put(setUserData(data.data));
   } catch (error) {
     yield put(setUserLoadingState(LoadingState.ERROR));
